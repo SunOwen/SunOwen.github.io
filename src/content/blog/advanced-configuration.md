@@ -8,6 +8,8 @@ toc: true
 share: true
 giscus: true
 search: true
+series: astro-in-action
+seriesOrder: 4
 ---
 
 This post is an advanced guide on customizing the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme). If you have not yet configured the `src/config.ts` file, it is recommended to first review [Basic Configuration](../basic-configuration/).

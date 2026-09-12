@@ -8,6 +8,8 @@ toc: true
 share: true
 giscus: true
 search: true
+series: astro-in-action
+seriesOrder: 2
 ---
 
 This post gives you a quick overview of the current structure of the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme) and how its main parts work together.

@@ -8,6 +8,8 @@ toc: true
 share: true
 giscus: true
 search: true
+series: markdown-craft
+seriesOrder: 2
 ---
 
 This post introduces some handy tricks for using special syntax in the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme) to enhance your Markdown/MDX content. These shortcuts let the theme’s built-in integrations or plugins handle the heavy lifting, automatically converting everything into HTML — _no need to write complex code yourself!_ 🎨

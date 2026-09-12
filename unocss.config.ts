@@ -8,6 +8,8 @@ import {
 
 import { UI } from './src/config'
 import projecstData from './src/content/projects/data.json'
+import seriesZhHans from './src/content/series/zh-Hans.json'
+import seriesEn from './src/content/series/en.json'
 
 import type { PresetWind3Theme } from 'unocss'
 import type {
@@ -35,6 +37,7 @@ const socialIcons = socialLinks
   .map((item) => (item as IconSocialItem | ResponsiveSocialItem).icon)
 
 const projectIcons = projecstData.map((item) => item.icon)
+const seriesIcons = [...seriesZhHans, ...seriesEn].map((item) => item.icon)
 
 const githubVersionColor: Record<string, string> = {
   major: 'bg-rose/15 text-rose-700 dark:text-rose-300',
@@ -115,6 +118,7 @@ export default defineConfig<PresetWind3Theme>({
     ...navIcons,
     ...socialIcons,
     ...projectIcons,
+    ...seriesIcons,
     ...githubVersionClass,
     ...githubSubLogos,
   ],

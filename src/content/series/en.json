@@ -1,0 +1,22 @@
+[
+  {
+    "id": "astro-in-action",
+    "lang": "en",
+    "title": "Astro in Action",
+    "desc": "Bootstrap an Astro site: config, content collections, images, and deployment.",
+    "icon": "i-ri-rocket-2-line",
+    "order": 1,
+    "bgType": "plum",
+    "ogImage": true
+  },
+  {
+    "id": "markdown-craft",
+    "lang": "en",
+    "title": "Markdown Craft",
+    "desc": "Get the most out of this theme's Markdown/MDX extension syntax.",
+    "icon": "i-ri-markdown-line",
+    "order": 2,
+    "bgType": "rose",
+    "ogImage": true
+  }
+]

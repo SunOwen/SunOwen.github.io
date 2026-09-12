@@ -21,16 +21,22 @@ export const UI: Ui = {
       text: 'Blog',
     },
     {
-      path: '/blog/en',
-      title: 'Blog in English',
+      path: '/series',
+      title: 'Series',
       displayMode: 'alwaysText',
-      text: 'EN',
+      text: 'Series',
     },
     {
       path: '/projects',
       title: 'Projects',
       displayMode: 'alwaysText',
       text: 'Projects',
+    },
+    {
+      path: '/blog/en',
+      title: '中文 / English',
+      displayMode: 'alwaysIcon',
+      icon: 'i-ri-translate-2',
     },
     {
       path: '/highlights',
@@ -148,6 +154,7 @@ export const FEATURES: Features = {
         { collection: 'blog', pathnamePrefix: '/blog' },
         { collection: 'changelog', pathnamePrefix: '/changelog' },
         { collection: 'shorts', pathnamePrefix: '/shorts' },
+        { collection: 'series', pathnamePrefix: '/series' },
       ],
     },
   ],

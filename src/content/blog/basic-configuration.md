@@ -8,6 +8,8 @@ toc: true
 share: true
 giscus: true
 search: true
+series: astro-in-action
+seriesOrder: 3
 ---
 
 This post is a basic guide on how to configure the `src/config.ts` file. If you’ve already set it up or feel confident configuring it (a simple task with type hints appearing on hover), you can skip ahead to [Advanced Configuration](../advanced-configuration/).

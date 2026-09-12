@@ -1,0 +1,110 @@
+---
+import { render } from 'astro:content'
+
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import ListItem from '~/components/views/ListItem.astro'
+import Link from '~/components/base/Link.astro'
+import {
+  getSeriesEntries,
+  getSeriesPosts,
+  getSeriesTranslations,
+  seriesSlug,
+} from '~/utils/series'
+import { getMinutesRead } from '~/utils/data'
+import { withBasePath } from '~/utils/path'
+import { DEFAULT_LOCALE, t } from '~/utils/i18n'
+
+export async function getStaticPaths() {
+  const entries = await getSeriesEntries(DEFAULT_LOCALE)
+  // Walk all unique slugs; for each slug, emit one path per available locale.
+  const slugs = Array.from(new Set(entries.map(seriesSlug)))
+  return slugs.map((slug) => ({
+    params: { series: slug },
+    props: { slug },
+  }))
+}
+
+const locale = DEFAULT_LOCALE
+const { slug } = Astro.props
+
+const entries = await getSeriesTranslations(slug)
+const entry = entries.find((e) => e.data.lang === locale) ?? entries[0]
+if (!entry) {
+  throw new Error(`No series entry for slug=${slug}`)
+}
+
+const { title, desc, icon, bgType, ogImage } = entry.data
+
+const posts = await getSeriesPosts(slug)
+const items = await Promise.all(
+  posts.map(async (post, idx) => {
+    const { remarkPluginFrontmatter } = await render(post)
+    return {
+      idx,
+      post,
+      minutesRead: getMinutesRead(
+        post.data.minutesRead,
+        remarkPluginFrontmatter.minutesRead,
+      ),
+    }
+  }),
+)
+
+const alternates = entries.map((e) => {
+  const eLocale = e.data.lang
+  const eDir = eLocale === DEFAULT_LOCALE ? '' : `/${eLocale}`
+  return {
+    lang: eLocale,
+    href: withBasePath(`/series${eDir}/${slug}/`),
+  }
+})
+
+const countPostsLabel = t(locale, 'series.countPosts', { n: items.length })
+const backLabel = t(locale, 'series.backToAllSeries')
+const emptyLabel = t(locale, 'empty')
+---
+
+<BaseLayout
+  {title}
+  description={desc}
+  {bgType}
+  {ogImage}
+  {alternates}
+>
+  <StandardLayout {title} subtitle={desc} isCentered={true}>
+    <Fragment slot="head">
+      <div class="flex justify-center items-center gap-3 mt-2 op-60 text-sm">
+        <span class={icon} aria-hidden="true" />
+        <span>{countPostsLabel}</span>
+        <Link class="op-transition" href={withBasePath('/series/')}>
+          {backLabel}
+        </Link>
+      </div>
+    </Fragment>
+
+    <div class="prose mx-auto mt-8" aria-label="Series post list">
+      {
+        items.length === 0 ? (
+          <div class="py-2 op-50">{emptyLabel}</div>
+        ) : (
+          items.map(({ idx, post, minutesRead }) => (
+            <ListItem
+              {idx}
+              collectionType="blog"
+              postSlug={post.id}
+              title={`${post.data.seriesOrder}. ${post.data.title}`}
+              tags={post.data.tags}
+              date={post.data.pubDate}
+              {minutesRead}
+              radio={post.data.radio}
+              video={post.data.video}
+              platform={post.data.platform}
+              redirect={post.data.redirect}
+            />
+          ))
+        )
+      }
+    </div>
+  </StandardLayout>
+</BaseLayout>

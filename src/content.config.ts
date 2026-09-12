@@ -13,6 +13,7 @@ import {
   streamSchema,
   photoSchema,
 } from '~/schema'
+import { series } from '~/content/series'
 
 const pages = defineCollection({
   loader: glob({ base: './src/pages', pattern: '**/*.mdx' }),
@@ -69,8 +70,7 @@ const highlights = defineCollection({
       'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lcl5ndm52c2s',
       'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lcdimk36e226',
       'at://did:plc:6kf6jxl44h34mprhykvqljcx/app.bsky.feed.post/3lbkb6hizhk2f',
-      'at://did:plc:oky5czdrnfjpqslsw2a5iclo/app.bsky.feed.post/3lbd2eaura22r',
-      'at://did:plc:oky5czdrnfjpqslsw2a5iclo/app.bsky.feed.post/3lbayyemhzs2v',
+      'at://did:plc:oky5czdrnfjpqslww2a5iclo/app.bsky.feed.post/3lbayyemhzs2v',
       'at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3larljiyi7s2v',
     ],
     newlineHandling: 'paragraph',
@@ -113,6 +113,7 @@ export const collections = {
   pages,
   home,
   blog,
+  series,
   projects,
   releases,
   prs,

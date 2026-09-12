@@ -1,4 +1,5 @@
 import { z } from 'astro/zod'
+
 import type { SchemaContext } from 'astro:content'
 
 /* Pages */
@@ -68,6 +69,21 @@ export const postSchema = ({ image }: SchemaContext) =>
       .default([])
       .describe(
         'Adds tags to the post. These are displayed in post metadata and can also be used by list/card view tag filters on pages that enable them. If not needed, leave the field as an empty array or delete it.'
+      ),
+    series: z
+      .string()
+      .trim()
+      .default('')
+      .describe(
+        'Assigns the post to a series (column). The value must match an `id` in `src/content/series/`. If not needed, leave it as an empty string or delete it.'
+      ),
+    seriesOrder: z
+      .number()
+      .int()
+      .positive()
+      .default(1)
+      .describe(
+        'Sets the position of the post inside its series. Used for ordering and for the previous/next navigation.'
       ),
     cover: z
       .union([image(), z.url()])

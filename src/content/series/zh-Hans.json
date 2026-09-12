@@ -1,0 +1,22 @@
+[
+  {
+    "id": "astro-in-action",
+    "lang": "zh-Hans",
+    "title": "Astro 实战",
+    "desc": "从零搭起一个 Astro 站点：配置、内容集合、图片与部署。",
+    "icon": "i-ri-rocket-2-line",
+    "order": 1,
+    "bgType": "plum",
+    "ogImage": true
+  },
+  {
+    "id": "markdown-craft",
+    "lang": "zh-Hans",
+    "title": "Markdown 工艺",
+    "desc": "把这个主题的 Markdown/MDX 扩展语法用到位。",
+    "icon": "i-ri-markdown-line",
+    "order": 2,
+    "bgType": "rose",
+    "ogImage": true
+  }
+]

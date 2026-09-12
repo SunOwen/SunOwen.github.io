@@ -1,0 +1,71 @@
+---
+import Link from '~/components/base/Link.astro'
+import { getSeriesNeighbours, seriesSlug } from '~/utils/series'
+import { LOCALE_META, getPostLocale, t } from '~/utils/i18n'
+import { withBasePath } from '~/utils/path'
+
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  post: CollectionEntry<'blog' | 'changelog' | 'shorts'>
+}
+
+const { post } = Astro.props
+const series = await getSeriesNeighbours(post)
+if (!series || !series.meta) return
+
+const { meta, total, index, prev, next } = series
+const postLocale = getPostLocale(post)
+const dir = LOCALE_META[postLocale].dir
+const baseSegment = dir ? `/${dir}` : ''
+const seriesHref = withBasePath(`/series${baseSegment}/${seriesSlug(meta)}/`)
+const locale = Astro.locals.locale
+---
+
+<nav
+  class="series-nav slide-enter not-prose my-8 p-4 rounded-lg
+    border border-solid b-[#8884] bg-[#8888880d]"
+  aria-label="Series navigation"
+  data-pagefind-ignore
+>
+  <a
+    href={seriesHref}
+    class="flex items-center gap-2 no-underline! hover:op-100"
+  >
+    <span class={`text-5 op-70 ${meta.data.icon}`} aria-hidden="true" />
+    <span class="font-600">{meta.data.title}</span>
+    <span class="op-50 text-sm">
+      · {t(locale, 'series.positionInSeries', { i: index + 1, n: total })}
+    </span>
+  </a>
+
+  <div class="flex flex-wrap gap-x-6 gap-y-1 mt-3 text-sm">
+    {
+      prev ? (
+        <Link
+          class="op-60 hover:op-100 op-transition"
+          href={withBasePath(`/blog/${prev.id}/`)}
+        >
+          {`← ${prev.data.title}`}
+        </Link>
+      ) : (
+        <span class="op-30">{t(locale, 'series.isFirst')}</span>
+      )
+    }
+    {
+      next ? (
+        <Link
+          class="op-60 hover:op-100 op-transition"
+          href={withBasePath(`/blog/${next.id}/`)}
+        >
+          {`${next.data.title} →`}
+        </Link>
+      ) : (
+        <span class="op-30">{t(locale, 'series.isLast')}</span>
+      )
+    }
+    <Link class="op-60 hover:op-100 op-transition" href={seriesHref}>
+      {t(locale, 'series.viewAll', { n: total })}
+    </Link>
+  </div>
+</nav>

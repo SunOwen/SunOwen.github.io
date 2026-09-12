@@ -1,0 +1,69 @@
+---
+import Link from '~/components/base/Link.astro'
+import Warning from '~/components/base/Warning.astro'
+import { getSeriesEntries, getSeriesPosts, seriesSlug } from '~/utils/series'
+import { withBasePath } from '~/utils/path'
+import { formatDate } from '~/utils/datetime'
+import { LOCALE_META, t } from '~/utils/i18n'
+
+const locale = Astro.locals.locale
+const entries = await getSeriesEntries(locale)
+
+// Series overview lives at `/series/` for the default locale and at
+// `/series/<dir>/` for non-default locales. Build the prefix from the locale
+// metadata so we do not hard-code `'en'` here.
+const dir = LOCALE_META[locale].dir
+const baseSegment = dir ? `/${dir}` : ''
+
+const cards = await Promise.all(
+  entries.map(async (entry, idx) => {
+    const posts = await getSeriesPosts(seriesSlug(entry))
+    return {
+      idx,
+      slug: seriesSlug(entry),
+      entry,
+      count: posts.length,
+      latest: posts[posts.length - 1]?.data.pubDate,
+    }
+  }),
+)
+
+const WARNING = `No series available.
+  Please add entries to <code>src/content/series/</code>.`
+---
+
+{
+  cards.length === 0 ? (
+    <Warning html={WARNING} />
+  ) : (
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-3 py-4 mx-auto lt-md:max-w-[350px]!">
+      {cards.map(({ idx, slug, entry, count, latest }) => (
+        <Link
+          class="group slide-enter relative flex flex-col gap-1.5
+            px-4 py-3.5 rounded-md no-underline!
+            bg-transparent hover:bg-[#88888811] transition-all duration-300"
+          style={{ '--enter-stage': idx }}
+          href={withBasePath(`/series${baseSegment}/${slug}/`)}
+          aria-label={entry.data.title}
+        >
+          <div class="flex items-center gap-2.5">
+            <span
+              class={`text-6 op-60 group-hover:op-100 group-hover:saturate-100 saturate-0 transition-all duration-300 ${entry.data.icon}`}
+              aria-hidden="true"
+            />
+            <span class="font-600 text-4.4">{entry.data.title}</span>
+          </div>
+          {entry.data.desc && (
+            <p class="m-0 op-50 text-sm leading-6">{entry.data.desc}</p>
+          )}
+          <p class="m-0 op-40 text-xs">
+            {t(locale, 'series.countPosts', { n: count })}
+            {latest
+              ? ` · ${t(locale, 'series.latestUpdate', { date: formatDate(latest) })}`
+              : ''}
+          </p>
+        </Link>
+      ))}
+    </div>
+  )
+}
