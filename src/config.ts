@@ -7,8 +7,8 @@ export const SITE: Site = {
   description:
     'A customizable, feature-rich Astro theme for blog and portfolio creation',
   author: 'Stephanie Lin',
-  lang: 'en',
-  ogLocale: 'en_US',
+  lang: 'zh-Hans',
+  ogLocale: 'zh_CN',
   imageDomains: ['cdn.bsky.app', 'images.unsplash.com'],
 }
 
@@ -63,7 +63,7 @@ export const UI: Ui = {
       icon: 'i-uil-github-alt',
     },
     {
-      link: 'https://x.com/astrodotbuild',
+      link: 'https://x.com/astrobuild',
       title: 'Astro on Twitter',
       displayMode: 'alwaysIcon',
       icon: 'i-ri-twitter-x-fill',

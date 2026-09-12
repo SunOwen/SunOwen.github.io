@@ -1,6 +1,5 @@
 import { visit } from 'unist-util-visit'
 import { toString } from 'mdast-util-to-string'
-import getReadingTime from 'reading-time'
 
 import remarkDirective from 'remark-directive'
 import remarkDirectiveSugar from 'remark-directive-sugar'
@@ -16,6 +15,10 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeWrapAll from 'rehype-wrap-all'
 
 import { UI } from './src/config'
+// NOTE: relative import, not `~/utils/...` — this file is loaded by
+// `astro.config.ts` and runs before Vite resolves path aliases.
+// See `shorts/path-aliases`.
+import { estimateMinutesRead } from './src/utils/reading-time'
 
 import type { RemarkPlugins, RehypePlugins } from 'astro'
 import type { PropertiesFromTextDirective } from 'remark-directive-sugar'
@@ -30,9 +33,9 @@ function remarkReadingTime() {
     if (frontmatter.minutesRead || frontmatter.minutesRead === 0) return
 
     const textOnPage = toString(tree)
-    const readingTime = getReadingTime(textOnPage)
-
-    frontmatter.minutesRead = Math.max(1, Math.round(readingTime.minutes))
+    // Counts CJK characters and Latin words separately, so Chinese posts are
+    // not inflated by the English-calibrated 200 wpm assumption.
+    frontmatter.minutesRead = estimateMinutesRead(textOnPage)
   }
 }
 

@@ -4,6 +4,8 @@ import type {
   AttributifyNames,
 } from 'unocss/preset-attributify'
 
+import type { Locale } from './utils/i18n'
+
 type Prefix = 'u-' // change it to your prefix
 
 declare global {
@@ -13,4 +15,12 @@ declare global {
         AttributifyAttributes,
         Partial<Record<AttributifyNames<Prefix>, string>> {}
   }
+
+  namespace App {
+    interface Locals {
+      locale: Locale
+    }
+  }
 }
+
+export {}
