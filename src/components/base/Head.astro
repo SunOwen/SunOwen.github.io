@@ -8,6 +8,7 @@ import {
 } from '~/utils/og-image/routing'
 import { silentLogger } from '~/utils/server'
 import { withBasePath } from '~/utils/path'
+import { ogLocale } from '~/utils/i18n'
 import { SITE } from '~/config'
 
 interface Props {
@@ -16,9 +17,24 @@ interface Props {
   ogImage?: string | boolean
   pubDate?: string
   lastModDate?: string
+  ogLocale?: string
+  alternates?: { lang: string; href: string }[]
+  rssPath?: string
 }
 
-const { title, description, ogImage, pubDate, lastModDate } = Astro.props
+const locale = Astro.locals.locale
+const defaultOgLocale = ogLocale(locale)
+
+const {
+  title,
+  description,
+  ogImage,
+  pubDate,
+  lastModDate,
+  ogLocale: passedOgLocale,
+  alternates = [],
+  rssPath,
+} = Astro.props
 
 const pageTitle =
   title && title !== SITE.title ? `${title} - ${SITE.title}` : SITE.title
@@ -55,6 +71,7 @@ const blogPostingData = {
     'name': SITE.author,
     'url': SITE.website,
   },
+  inLanguage: ogLocale(locale).replace('_', '-'),
 }
 
 // https://jsonld.com/web-page/
@@ -125,7 +142,7 @@ const webPageData = {
 <meta property="og:description" content={pageDescription} />
 {ogImageURL && <meta property="og:image" content={ogImageURL} />}
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content={SITE.ogLocale} />
+<meta property="og:locale" content={passedOgLocale || defaultOgLocale} />
 {
   pubDate && (
     <>
@@ -146,6 +163,13 @@ const webPageData = {
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Language alternates (hreflang) -->
+{
+  alternates.map((alt) => (
+    <link rel="alternate" hreflang={alt.lang} href={alt.href} />
+  ))
+}
+
 <!-- Icon -->
 <link rel="icon" type="image/svg+xml" href={withBasePath('/favicon.svg')} />
 <link rel="icon" sizes="32x32" href={withBasePath('/favicon.ico')} />
@@ -161,8 +185,8 @@ const webPageData = {
 <link
   rel="alternate"
   type="application/rss+xml"
-  title={withBasePath('/rss.xml')}
-  href="/rss.xml"
+  title={SITE.title}
+  href={withBasePath(rssPath || '/rss.xml')}
 />
 
 <!-- Google JSON-LD Structured Data -->

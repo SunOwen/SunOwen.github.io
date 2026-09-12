@@ -12,7 +12,8 @@ import Footer from '~/components/base/Footer.astro'
 import ToTopButton from '~/components/widgets/ToTopButton.astro'
 import Backdrop from '~/components/base/Backdrop.astro'
 
-import { SITE, UI, FEATURES } from '~/config'
+import { UI, FEATURES } from '~/config'
+import { LOCALE_META, langTag } from '~/utils/i18n'
 import { withBasePath } from '~/utils/path'
 
 import type { BgType } from '~/types'
@@ -24,10 +25,23 @@ interface Props {
   bgType?: BgType | false
   pubDate?: string
   lastModDate?: string
+  ogLocale?: string
+  alternates?: { lang: string; href: string }[]
 }
 
-const { title, description, ogImage, bgType, pubDate, lastModDate } =
-  Astro.props
+const locale = Astro.locals.locale
+const lang = langTag(locale)
+const rssPath = LOCALE_META[locale].rssPath
+
+const {
+  title,
+  description,
+  ogImage,
+  bgType,
+  pubDate,
+  lastModDate,
+  alternates = [],
+} = Astro.props
 
 let style: Record<string, string> = {}
 
@@ -45,9 +59,17 @@ if (hasCustomCursor) style['--external-link-cursor'] = cursorType
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={lang}>
   <head>
-    <Head {title} {description} {ogImage} {pubDate} {lastModDate} />
+    <Head
+      {title}
+      {description}
+      {ogImage}
+      {pubDate}
+      {lastModDate}
+      {alternates}
+      {rssPath}
+    />
   </head>
 
   <body

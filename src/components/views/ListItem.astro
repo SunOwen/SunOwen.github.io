@@ -3,6 +3,7 @@ import Link from '~/components/base/Link.astro'
 
 import { withBasePath } from '~/utils/path'
 import { formatDate } from '~/utils/datetime'
+import { langTag, t } from '~/utils/i18n'
 
 interface Props {
   collectionType: string
@@ -17,6 +18,9 @@ interface Props {
   platform?: string
   redirect?: string
 }
+
+const locale = Astro.locals.locale
+const lang = langTag(locale)
 
 const {
   collectionType,
@@ -67,13 +71,16 @@ const {
       }
       <time
         class="op-50 text-sm ws-nowrap"
+        lang={lang}
         datetime={new Date(date).toISOString()}
       >
-        {formatDate(date, false)}
+        {formatDate(date, false, false, lang)}
       </time>
       {
         !!minutesRead && (
-          <span class="op-40 text-sm ws-nowrap">· {minutesRead} min</span>
+          <span class="op-40 text-sm ws-nowrap">
+            · {minutesRead} {t(locale, 'min')}
+          </span>
         )
       }
       {platform && <span class="op-40 text-sm ws-nowrap">· {platform}</span>}

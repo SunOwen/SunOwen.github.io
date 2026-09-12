@@ -1,5 +1,6 @@
 ---
 import Link from '~/components/base/Link.astro'
+import { t } from '~/utils/i18n'
 import type { ShareConfig } from '~/types'
 
 interface ShareLink {
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const { config } = Astro.props
+const locale = Astro.locals.locale
+const shareLabel = t(locale, 'shareOn')
 const postUrl = Astro.url
 
 const SHARE_LINKS: Record<string, ShareLink> = {
@@ -95,7 +98,7 @@ const links = Object.entries(config)
 ---
 
 <span class="font-mono op-50">&gt; </span>
-<span class="op-50">share on</span>
+<span class="op-50">{shareLabel}</span>
 {' '}
 {
   links.map((link, idx) => (

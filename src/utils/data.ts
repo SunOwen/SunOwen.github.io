@@ -8,10 +8,12 @@ import {
 } from '@atproto/api'
 import { atUriToPostUri } from 'astro-loader-bluesky-posts'
 import { SITE } from '../config'
+import { getPostLocale } from './i18n'
 
 import type { CollectionEntry, CollectionKey } from 'astro:content'
 import type { CardItemData } from '~/components/views/CardItem.astro'
 import type { GitHubView } from '~/types'
+import type { Locale } from './i18n'
 
 type CollectionEntryList<K extends CollectionKey = CollectionKey> =
   CollectionEntry<K>[]
@@ -53,13 +55,17 @@ export function getMinutesRead(
 
 /**
  * Retrieves filtered posts from the specified content collection.
- * In production, it filters out draft posts.
+ * In production, it filters out draft posts. When a locale is given, also
+ * narrows to entries whose file location matches that locale.
  */
 export async function getFilteredPosts(
-  collection: 'blog' | 'changelog' | 'shorts'
+  collection: 'blog' | 'changelog' | 'shorts',
+  locale?: Locale,
 ) {
-  return await getCollection(collection, ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true
+  return await getCollection(collection, (entry) => {
+    if (import.meta.env.PROD && entry.data.draft) return false
+    if (locale && getPostLocale(entry) !== locale) return false
+    return true
   })
 }
 

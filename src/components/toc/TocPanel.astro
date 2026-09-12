@@ -2,6 +2,7 @@
 import TocItem from '~/components/toc/TocItem.astro'
 import { generateToc } from '~/utils/toc'
 import { FEATURES } from '~/config'
+import { t } from '~/utils/i18n'
 
 import type { MarkdownHeading } from 'astro'
 
@@ -18,6 +19,7 @@ type Props =
     }
 
 const { headings = [], anchors = [], style } = Astro.props
+const locale = Astro.locals.locale
 
 const { toc } = FEATURES
 if (!toc || (Array.isArray(toc) && !toc[0])) return
@@ -34,7 +36,7 @@ const specHeadings = generateToc(headings, minHeadingLevel, maxHeadingLevel)
     bg-[var(--c-bg)] shadow-custom_0_0_10_0 text-[var(--c-text)]"
   {style}
 >
-  <div class="pb-1 b-b b-[var(--c-text)] op-50">Table of Contents</div>
+  <div class="pb-1 b-b b-[var(--c-text)] op-50">{t(locale, 'toc')}</div>
   <ul class="text-sm">
     {
       !!specHeadings.length &&

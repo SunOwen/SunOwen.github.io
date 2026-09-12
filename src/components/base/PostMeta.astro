@@ -1,5 +1,6 @@
 ---
 import { formatDate } from '~/utils/datetime'
+import { langTag, t } from '~/utils/i18n'
 import { UI } from '~/config'
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const { pubDate, lastModDate, minutesRead, tags } = Astro.props
+const locale = Astro.locals.locale
+const lang = langTag(locale)
 
 const isMinimal = UI.postView.postMetaStyle === 'minimal'
 ---
@@ -17,11 +20,13 @@ const isMinimal = UI.postView.postMetaStyle === 'minimal'
 {
   isMinimal ? (
     <div class="mt--6! op-50 lt-md:text-sm">
-      <time datetime={pubDate}>{formatDate(pubDate)}</time>
+      <time datetime={pubDate} lang={lang}>{formatDate(pubDate, true, false, lang)}</time>
       {lastModDate && (
-        <time datetime={lastModDate}> · Updated {formatDate(lastModDate)}</time>
+        <time datetime={lastModDate} lang={lang}>
+          {' '}· {t(locale, 'updated')} {formatDate(lastModDate, true, false, lang)}
+        </time>
       )}
-      {minutesRead > 0 && <span> · {minutesRead} min</span>}
+      {minutesRead > 0 && <span> · {minutesRead} {t(locale, 'min')}</span>}
       {tags.length > 0 && <span> · {tags.join(' / ')}</span>}
     </div>
   ) : (
@@ -31,17 +36,17 @@ const isMinimal = UI.postView.postMetaStyle === 'minimal'
     >
       <div>
         <span class="i-ri-calendar-line mr-1.2" />
-        <time datetime={pubDate}>{formatDate(pubDate)}</time>
+        <time datetime={pubDate} lang={lang}>{formatDate(pubDate, true, false, lang)}</time>
       </div>
       {lastModDate && (
         <div>
           <span class="i-ri-history-fill mr-1.2" />
-          <time datetime={lastModDate}>{formatDate(lastModDate)}</time>
+          <time datetime={lastModDate} lang={lang}>{formatDate(lastModDate, true, false, lang)}</time>
         </div>
       )}
       <div>
         <span class="i-ri-timer-line mr-1.2 ml--0.6" />
-        {minutesRead > 0 && <span>{minutesRead} min read</span>}
+        {minutesRead > 0 && <span>{minutesRead} {t(locale, 'min')}</span>}
       </div>
       {tags.length > 0 && (
         <div>

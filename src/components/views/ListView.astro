@@ -8,6 +8,7 @@ import MobileControl from '~/components/base/MobileControl.astro'
 import Warning from '~/components/base/Warning.astro'
 
 import { FEATURES } from '~/config'
+import { t } from '~/utils/i18n'
 import { isSameYear, getYear } from '~/utils/datetime'
 import { getFilteredPosts, getSortedPosts, getMinutesRead } from '~/utils/data'
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const { collectionType, pageToc = false, pageTag = false } = Astro.props
+const locale = Astro.locals.locale
 
 const VALID_COLLECTION_TYPE = ['blog', 'changelog', 'streams', 'feeds']
 const WARNING = `The '${collectionType}' collection type is not built-in.
@@ -47,7 +49,7 @@ const groupedBlogItems: {
   }[]
 }[] = []
 if (collectionType === 'blog' || collectionType === 'changelog') {
-  const items = await getFilteredPosts(collectionType)
+  const items = await getFilteredPosts(collectionType, locale)
   const sorted = getSortedPosts(items)
 
   const enriched = await Promise.all(
@@ -57,7 +59,7 @@ if (collectionType === 'blog' || collectionType === 'changelog') {
 
       const minutesRead = getMinutesRead(
         data.minutesRead,
-        remarkPluginFrontmatter.minutesRead
+        remarkPluginFrontmatter.minutesRead,
       )
 
       return {
@@ -67,7 +69,7 @@ if (collectionType === 'blog' || collectionType === 'changelog') {
         data,
         minutesRead,
       }
-    })
+    }),
   )
 
   for (const item of enriched) {
@@ -106,7 +108,7 @@ if (collectionType === 'streams') {
   const streamItems = await getCollection(collectionType)
 
   sortedStreamItems = streamItems.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
   )
 
   if (tocEnabled) {
@@ -130,14 +132,14 @@ if (collectionType === 'feeds') {
   sortedFeedItems = feedItems
     .filter(
       (
-        item
+        item,
       ): item is typeof item & {
         data: typeof item.data & {
           url: string
           title: string
           published: Date
         }
-      } => !!item.data.url && !!item.data.title && !!item.data.published
+      } => !!item.data.url && !!item.data.title && !!item.data.published,
     )
     .sort((a, b) => {
       return b.data.published.valueOf() - a.data.published.valueOf()
@@ -155,6 +157,8 @@ if (collectionType === 'feeds') {
       .map((year) => year.toString())
   }
 }
+
+const emptyLabel = t(locale, 'empty')
 ---
 
 <DesktopAside anchors={years} {tags} />
@@ -162,9 +166,9 @@ if (collectionType === 'feeds') {
 
 {
   (collectionType === 'blog' || collectionType === 'changelog') && (
-    <div aria-label="Post list">
+    <div aria-label={t(locale, 'postList')}>
       {groupedBlogItems.length === 0 ? (
-        <div class="py-2 op-50">nothing here yet</div>
+        <div class="py-2 op-50">{emptyLabel}</div>
       ) : (
         groupedBlogItems.map((group) => {
           const idx = group.items[0].idx
@@ -184,7 +188,7 @@ if (collectionType === 'feeds') {
                   title={data.title}
                   tags={data.tags}
                   date={data.pubDate}
-                  minutesRead={minutesRead}
+                  {minutesRead}
                   radio={data.radio}
                   video={data.video}
                   platform={data.platform}
@@ -203,7 +207,7 @@ if (collectionType === 'feeds') {
   collectionType === 'streams' && (
     <div aria-label="Stream list">
       {sortedStreamItems.length === 0 ? (
-        <div class="py-2 op-50">nothing here yet</div>
+        <div class="py-2 op-50">{emptyLabel}</div>
       ) : (
         sortedStreamItems.map((item, idx) => {
           const { data } = item
@@ -211,7 +215,7 @@ if (collectionType === 'feeds') {
             <>
               {!isSameYear(
                 data.pubDate,
-                sortedStreamItems[idx - 1]?.data.pubDate
+                sortedStreamItems[idx - 1]?.data.pubDate,
               ) && (
                 <Categorizer
                   {idx}
@@ -241,7 +245,7 @@ if (collectionType === 'feeds') {
   collectionType === 'feeds' && (
     <div aria-label="Feed list">
       {sortedFeedItems.length === 0 ? (
-        <div class="py-2 op-50">nothing here yet</div>
+        <div class="py-2 op-50">{emptyLabel}</div>
       ) : (
         sortedFeedItems.map((item, idx) => {
           const { data } = item
@@ -250,7 +254,7 @@ if (collectionType === 'feeds') {
             <>
               {!isSameYear(
                 data.published!,
-                sortedFeedItems[idx - 1]?.data.published as Date
+                sortedFeedItems[idx - 1]?.data.published as Date,
               ) && (
                 <Categorizer
                   {idx}

@@ -3,7 +3,12 @@ import { SITE } from '../config'
 /**
  * Formats a given date into a human-readable string.
  */
-export function formatDate(d: Date | string, showYear = true, useUTC = false) {
+export function formatDate(
+  d: Date | string,
+  showYear = true,
+  useUTC = false,
+  lang?: string,
+) {
   const date = typeof d === 'string' ? new Date(d) : d
   if (isNaN(date.getTime())) throw new Error('Invalid Date')
 
@@ -14,7 +19,7 @@ export function formatDate(d: Date | string, showYear = true, useUTC = false) {
     ...(useUTC && { timeZone: 'UTC' }),
   }
 
-  return date.toLocaleDateString(SITE.lang, options)
+  return date.toLocaleDateString(lang || SITE.lang, options)
 }
 
 /**

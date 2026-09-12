@@ -4,6 +4,7 @@ import TocSidebar from '~/components/toc/TocSidebar.astro'
 import TagFilter from '~/components/tags/TagFilter.astro'
 import TagSidebar from '~/components/tags/TagSidebar.astro'
 import { FEATURES } from '~/config'
+import { t } from '~/utils/i18n'
 
 import type { MarkdownHeading } from 'astro'
 
@@ -17,6 +18,8 @@ interface Props {
   tocButtonText?: string
   tagButtonText?: string
 }
+
+const locale = Astro.locals.locale
 
 const {
   anchors = [],
@@ -65,7 +68,7 @@ if (tocPosition === 'right' && tagPosition === 'right') asidePosition = 'right'
             group-hover/content:data-[display-mode=content]:aria-[selected=true]:op-60
             group-hover/aside:data-[display-mode=hover]:aria-[selected=true]:op-60"
           aria-selected="true"
-          aria-label="Table of contents"
+          aria-label={t(locale, 'toc')}
           data-type="toc"
           data-display-mode={tocDisplayMode}
         >
@@ -87,7 +90,7 @@ if (tocPosition === 'right' && tagPosition === 'right') asidePosition = 'right'
             group-hover/content:data-[display-mode=content]:aria-[selected=true]:op-60
             group-hover/aside:data-[display-mode=hover]:aria-[selected=true]:op-60"
           aria-selected="false"
-          aria-label="Tags"
+          aria-label={t(locale, 'tags')}
           data-type="tag"
           data-display-mode={tagDisplayMode}
         >
@@ -130,8 +133,8 @@ if (tocPosition === 'right' && tagPosition === 'right') asidePosition = 'right'
               group-hover/content:data-[display-mode=content]:op-60
               group-hover/aside:data-[display-mode=hover]:op-60
               ${tocButtonText ? 'op-100!' : undefined}`}
-            aria-label="Table of contents"
-            title="Table of contents"
+            aria-label={t(locale, 'toc')}
+            title={t(locale, 'toc')}
             data-display-mode={tocDisplayMode}
           >
             {tocButtonText ? (
@@ -170,8 +173,8 @@ if (tocPosition === 'right' && tagPosition === 'right') asidePosition = 'right'
               group-hover/content:data-[display-mode=content]:op-60
               group-hover/aside:data-[display-mode=hover]:op-60
               ${tagButtonText ? 'op-100!' : undefined}`}
-            aria-label="Tags"
-            title="Tags"
+            aria-label={t(locale, 'tags')}
+            title={t(locale, 'tags')}
             data-display-mode={tagDisplayMode}
           >
             {tagButtonText ? (
