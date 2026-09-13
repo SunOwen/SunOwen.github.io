@@ -77,13 +77,6 @@
     "category": "Astro Loaders"
   },
   {
-    "id": "astro-loader-bluesky-posts",
-    "link": "https://github.com/lin-stephanie/astro-loaders/tree/main/packages/astro-loader-bluesky-posts",
-    "desc": "Loads Bluesky posts and threads using post URLs or AT-URIs",
-    "icon": "i-logos-bluesky",
-    "category": "Astro Loaders"
-  },
-  {
     "id": "unocss",
     "link": "https://github.com/unocss/unocss",
     "desc": "The instant on-demand atomic CSS engine",
@@ -263,13 +256,6 @@
     "link": "https://github.com/rstacruz/nprogress",
     "desc": "Slim progress bars for Ajax applications",
     "icon": "i-svg-spinners-3-dots-fade",
-    "category": "Utilities"
-  },
-  {
-    "id": "@atproto/api",
-    "link": "https://github.com/bluesky-social/atproto/tree/main/packages/api",
-    "desc": "APIs for ATProto and Bluesky",
-    "icon": "i-logos-bluesky",
     "category": "Utilities"
   },
   {

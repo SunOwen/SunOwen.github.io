@@ -1,6 +1,4 @@
 ---
-import { getCollection } from 'astro:content'
-
 import CardItem from '~/components/views/CardItem.astro'
 import Loader from '~/components/base/Loader.astro'
 import Warning from '~/components/base/Warning.astro'
@@ -8,7 +6,6 @@ import DesktopAside from '~/components/base/DesktopAside.astro'
 import MobileControl from '~/components/base/MobileControl.astro'
 
 import {
-  processBlueskyPosts,
   getFilteredPosts,
   sortPostsByField,
 } from '~/utils/data'
@@ -48,16 +45,6 @@ const { tag } = FEATURES
 const tagEnabled = Array.isArray(tag) && tag[0] && pageTag
 let tags: string[][] = []
 let haveTags = false
-
-/* /highlights */
-if (collectionType === 'highlights') {
-  const highlights = await getCollection(collectionType)
-  dataForMasonry = processBlueskyPosts(highlights).sort((a, b) =>
-    !a.date || !b.date
-      ? 0
-      : new Date(b.date).valueOf() - new Date(a.date).valueOf()
-  )
-}
 
 /* /shorts */
 if (collectionType === 'shorts') {
