@@ -34,6 +34,30 @@ const switchTarget = await computeLocaleSwitchTarget(
   Astro.locals.locale,
 )
 
+/** Find the `localeSwitch: true` marker in `internalNavs` to read its
+ * bilingual label. Falls back to a sensible default when the marker
+ * isn't found (e.g. custom config without the locale switch). */
+const locale = Astro.locals.locale
+const switchItem = internalNavs.find(
+  (item): item is Extract<(typeof internalNavs)[number], { localeSwitch: true }> =>
+    'localeSwitch' in item,
+)
+function pickLabel<T>(
+  map: Partial<Record<'zh-Hans' | 'en', T>> | undefined,
+  staticValue: T,
+): T {
+  if (!map) return staticValue
+  return (map as Record<string, T | undefined>)[locale] ?? staticValue
+}
+const switchLabel = pickLabel(
+  switchItem?.titleI18n,
+  switchItem?.title ?? 'Switch language',
+)
+const switchTitle = pickLabel(
+  switchItem?.titleI18n,
+  switchItem?.title ?? 'Switch language',
+)
+
 /** Items that have a real link to render (skip the `localeSwitch`
  * marker — that's handled separately below). The type predicate
  * narrows the array element type so each entry satisfies the
@@ -75,8 +99,8 @@ const linkableNavs = internalNavs.filter(
                 {switchTarget && (
                   <a
                     href={switchTarget.href}
-                    title="English"
-                    aria-label="English"
+                    title={switchTitle}
+                    aria-label={switchLabel}
                     class="op-60 no-underline hover:op-100 op-transition"
                   >
                     <span class="i-ri-translate-2" aria-hidden="true" />
@@ -116,8 +140,8 @@ const linkableNavs = internalNavs.filter(
                 {switchTarget && (
                   <a
                     href={switchTarget.href}
-                    title="English"
-                    aria-label="English"
+                    title={switchTitle}
+                    aria-label={switchLabel}
                     class="op-60 no-underline hover:op-100 op-transition"
                   >
                     <span class="i-ri-translate-2" aria-hidden="true" />

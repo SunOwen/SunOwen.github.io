@@ -24,6 +24,38 @@ type Props =
 
 const { type, item, mergeOnMobile, mobileItemType } = Astro.props
 
+const locale = Astro.locals.locale
+
+/**
+ * Pick the per-locale value from an optional i18n map, falling back to
+ * `staticValue` when the map is missing or has no entry for the current
+ * locale.
+ */
+function pickI18n<T>(
+  map: Partial<Record<'zh-Hans' | 'en', T>> | undefined,
+  staticValue: T,
+): T {
+  if (!map) return staticValue
+  return (map as Record<string, T | undefined>)[locale] ?? staticValue
+}
+
+// `item.text` lives on TextNavItem / ResponsiveNavItem only; IconNavItem
+// uses an icon instead. We narrow before reading. Social links don't carry
+// `textI18n` / `titleI18n` (they live on `BaseNavItem`, which `SocialLink`
+// doesn't extend), so we gate the i18n pick on the field's presence.
+const itemText =
+  'text' in item ? (item as { text?: string }).text : undefined
+const titleI18n =
+  'titleI18n' in item
+    ? (item as { titleI18n?: Record<'zh-Hans' | 'en', string> }).titleI18n
+    : undefined
+const textI18n =
+  'textI18n' in item
+    ? (item as { textI18n?: Record<'zh-Hans' | 'en', string> }).textI18n
+    : undefined
+const titleResolved = pickI18n(titleI18n, item.title)
+const textResolved = pickI18n(textI18n, itemText ?? '')
+
 const href = type == 'internal' ? resolvePath(item.path) : item.link
 const rel = type === 'internal' ? undefined : 'me'
 const external = type === 'internal' ? false : true
@@ -45,12 +77,12 @@ const ariaCurrent =
             <Link
               class="block op-50! op-transition"
               href={href}
-              title={item.title}
+              title={titleResolved}
               rel={rel}
               external={external}
               aria-current={ariaCurrent}
             >
-              <span>{item.text}</span>
+              <span>{textResolved}</span>
             </Link>
           </li>
         )
@@ -60,7 +92,7 @@ const ariaCurrent =
           <Link
             class="block op-50! op-transition"
             href={href}
-            title={item.title}
+            title={titleResolved}
             rel={rel}
             external={external}
             aria-current={ariaCurrent}
@@ -73,7 +105,7 @@ const ariaCurrent =
       <Link
         class="lt-md:hidden op-50! op-transition"
         href={href}
-        title={item.title}
+        title={titleResolved}
         rel={rel}
         external={external}
         aria-current={ariaCurrent}
@@ -86,7 +118,7 @@ const ariaCurrent =
         {(item.displayMode === 'alwaysText' ||
           item.displayMode === 'textHiddenOnMobile' ||
           item.displayMode === 'textToIconOnMobile') && (
-          <span>{item.text}</span>
+          <span>{textResolved}</span>
         )}
       </Link>
     )
@@ -99,24 +131,24 @@ const ariaCurrent =
           : ''
       } op-transition`}
       href={href}
-      title={item.title}
+      title={titleResolved}
       rel={rel}
       external={external}
       aria-current={ariaCurrent}
     >
       {(item.displayMode === 'alwaysText' ||
-        item.displayMode === 'textHiddenOnMobile') && <span>{item.text}</span>}
+        item.displayMode === 'textHiddenOnMobile') && <span>{textResolved}</span>}
       {(item.displayMode === 'alwaysIcon' ||
         item.displayMode === 'iconHiddenOnMobile') && <div class={item.icon} />}
       {item.displayMode === 'textToIconOnMobile' && (
         <>
-          <span class="lt-md:hidden">{item.text}</span>
+          <span class="lt-md:hidden">{textResolved}</span>
           <div class={`md:hidden ${item.icon}`} />
         </>
       )}
       {item.displayMode === 'iconToTextOnMobile' && (
         <>
-          <span class="md:hidden">{item.text}</span>
+          <span class="md:hidden">{textResolved}</span>
           <div class={`lt-md:hidden ${item.icon}`} />
         </>
       )}
