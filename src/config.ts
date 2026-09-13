@@ -1,8 +1,8 @@
 import type { Site, Ui, Features } from './types'
 
 export const SITE: Site = {
-  website: 'https://astro-antfustyle-theme.vercel.app/',
-  base: '/',
+  website: 'https://sunowen.github.io/',
+  base: '/SunOwen.github.io',
   title: 'Astro AntfuStyle Theme',
   description:
     'A customizable, feature-rich Astro theme for blog and portfolio creation',
@@ -67,8 +67,8 @@ export const UI: Ui = {
   ],
   socialLinks: [
     {
-      link: 'https://github.com/lin-stephanie/astro-antfustyle-theme',
-      title: 'AntfuStyle on Github',
+      link: 'https://github.com/SunOwen/SunOwen.github.io',
+      title: 'SunOwen on Github',
       displayMode: 'alwaysIcon',
       icon: 'i-uil-github-alt',
     },
