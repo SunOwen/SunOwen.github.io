@@ -1,4 +1,6 @@
 ---
+import { getCollection, render } from 'astro:content'
+
 import CardItem from '~/components/views/CardItem.astro'
 import Loader from '~/components/base/Loader.astro'
 import Warning from '~/components/base/Warning.astro'
@@ -12,7 +14,7 @@ import {
 import { withBasePath } from '~/utils/path'
 import { FEATURES } from '~/config'
 
-import type { CollectionKey } from 'astro:content'
+import type { CollectionEntry, CollectionKey } from 'astro:content'
 import type { CardItemData } from '~/components/views/CardItem.astro'
 
 interface Props {
@@ -40,11 +42,35 @@ let isEmpty = false
 let dataForMasonry: CardItemData[] = []
 let dataForGrid: CardItemData[] = []
 
+interface RenderedHighlight {
+  data: CardItemData
+  Content: Awaited<ReturnType<typeof render>>['Content']
+}
+type HighlightEntry = CollectionEntry<'highlights'>
+let renderedHighlights: RenderedHighlight[] = []
+
 /* Tag */
 const { tag } = FEATURES
 const tagEnabled = Array.isArray(tag) && tag[0] && pageTag
 let tags: string[][] = []
 let haveTags = false
+
+/* /highlights */
+if (collectionType === 'highlights') {
+  const entries = (await getCollection('highlights')).sort((a, b) =>
+    new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+  )
+  renderedHighlights = await Promise.all(
+    entries.map(async (entry: HighlightEntry) => {
+      const { Content } = await render(entry)
+      return {
+        data: entry.data as unknown as CardItemData,
+        Content,
+      }
+    })
+  )
+  dataForMasonry = renderedHighlights.map((r) => r.data)
+}
 
 /* /shorts */
 if (collectionType === 'shorts') {
@@ -84,13 +110,23 @@ if (dataForMasonry.length === 0 && dataForGrid.length === 0) isEmpty = true
             data-min-card-width={minCardWidth}
             data-max-card-width={maxCardWidth}
           >
-            {dataForMasonry.map((item) => (
-              <CardItem
-                class="card-masonry absolute top-0 left-0
-                  [&>*:first-child]:rounded-lg [&>*:first-child:hover]:shadow-custom_0_3_20_-5"
-                item={item}
-              />
-            ))}
+            {renderedHighlights.length > 0
+              ? renderedHighlights.map(({ data, Content }) => (
+                  <CardItem
+                    class="card-masonry absolute top-0 left-0
+                      [&>*:first-child]:rounded-lg [&>*:first-child:hover]:shadow-custom_0_3_20_-5"
+                    item={data}
+                  >
+                    <Content />
+                  </CardItem>
+                ))
+              : dataForMasonry.map((item) => (
+                  <CardItem
+                    class="card-masonry absolute top-0 left-0
+                      [&>*:first-child]:rounded-lg [&>*:first-child:hover]:shadow-custom_0_3_20_-5"
+                    item={item}
+                  />
+                ))}
           </responsive-masonry>
           <Loader class="card-loader" />
         </>

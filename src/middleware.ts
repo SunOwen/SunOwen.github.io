@@ -7,6 +7,7 @@ import {
   prefixedLocales,
   type Locale,
 } from '~/utils/i18n'
+import { stripBasePath } from '~/utils/path'
 
 const LOCALE_BY_DIR = new Map(
   prefixedLocales().map((locale) => [LOCALE_META[locale].dir, locale]),
@@ -66,6 +67,10 @@ function localeFromPath(pathname: string): Locale {
 }
 
 export const onRequest = defineMiddleware((context, next) => {
-  context.locals.locale = localeFromPath(context.url.pathname)
+  // Production SSG renders each page with `Astro.url.pathname` set to the
+  // route path *without* the configured base, but at runtime the incoming
+  // request URL includes the base prefix. Strip it before deriving the
+  // locale so both code paths agree.
+  context.locals.locale = localeFromPath(stripBasePath(context.url.pathname))
   return next()
 })

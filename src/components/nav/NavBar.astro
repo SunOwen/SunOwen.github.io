@@ -9,6 +9,7 @@ import NavSwitch from '~/components/nav/NavSwitch.astro'
 
 import { UI } from '~/config'
 import { computeLocaleSwitchTarget } from '~/utils/locale-switch'
+import { withBasePath } from '~/utils/path'
 
 const { navBarLayout, internalNavs, socialLinks } = UI
 const { left, right, mergeOnMobile } = navBarLayout
@@ -33,6 +34,11 @@ const switchTarget = await computeLocaleSwitchTarget(
   Astro.url.pathname,
   Astro.locals.locale,
 )
+// `switchTarget.href` is a site-root path (e.g. `/blog/en/`); join it with
+// the configured base so the rendered anchor works whether the site is
+// served at the domain root or under a project path like
+// `/SunOwen.github.io/`.
+const switchHref = switchTarget ? withBasePath(switchTarget.href) : ''
 
 /** Find the `localeSwitch: true` marker in `internalNavs` to read its
  * bilingual label. Falls back to a sensible default when the marker
@@ -98,7 +104,7 @@ const linkableNavs = internalNavs.filter(
                 ))}
                 {switchTarget && (
                   <a
-                    href={switchTarget.href}
+                    href={switchHref}
                     title={switchTitle}
                     aria-label={switchLabel}
                     class="op-60 no-underline hover:op-100 op-transition"
@@ -139,7 +145,7 @@ const linkableNavs = internalNavs.filter(
                 ))}
                 {switchTarget && (
                   <a
-                    href={switchTarget.href}
+                    href={switchHref}
                     title={switchTitle}
                     aria-label={switchLabel}
                     class="op-60 no-underline hover:op-100 op-transition"

@@ -244,3 +244,10 @@ export const streamSchema = z.object({
       'Specifies the platform where the stream is published. If not needed, leave the field as an empty string or delete it.'
     ),
 })
+
+/* Highlights */
+export const highlightSchema = z
+  .object({
+    date: z.coerce.date(),
+  })
+  .passthrough()

@@ -11,6 +11,7 @@ import {
   projectSchema,
   streamSchema,
   photoSchema,
+  highlightSchema,
 } from '~/schema'
 import { series } from '~/content/series'
 
@@ -67,6 +68,14 @@ const prs = defineCollection({
   }),
 })
 
+const highlights = defineCollection({
+  loader: glob({
+    base: './src/content/highlights',
+    pattern: '**/[^_]*.{md,mdx}',
+  }),
+  schema: highlightSchema,
+})
+
 const photos = defineCollection({
   loader: file('src/content/photos/data.json'),
   schema: photoSchema,
@@ -104,6 +113,7 @@ export const collections = {
   projects,
   releases,
   prs,
+  highlights,
   photos,
   shorts,
   changelog,

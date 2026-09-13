@@ -2,6 +2,7 @@ import { getCollection } from 'astro:content'
 
 import { seriesSlug } from './series'
 import { LOCALES, LOCALE_META, type Locale } from './i18n'
+import { stripBasePath } from './path'
 
 import type { CollectionEntry } from 'astro:content'
 
@@ -79,6 +80,10 @@ export async function computeLocaleSwitchTarget(
   pathname: string,
   currentLocale: Locale,
 ): Promise<LocaleSwitchTarget | null> {
+  // `Astro.url.pathname` in production SSG includes the configured base
+  // (e.g. `/SunOwen.github.io/blog/zh/`). Strip it before matching so the
+  // path segments line up with collection roots like `/blog/zh/`.
+  pathname = stripBasePath(pathname)
   const otherLocale = LOCALES.find((locale) => locale !== currentLocale)
   if (!otherLocale) return null
 
