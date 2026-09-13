@@ -1,10 +1,6 @@
 import { glob, file } from 'astro/loaders'
 import { defineCollection } from 'astro:content'
 
-import { feedLoader } from '@ascorbic/feed-loader'
-import { githubReleasesLoader } from 'astro-loader-github-releases'
-import { githubPrsLoader } from 'astro-loader-github-prs'
-
 import {
   pageSchema,
   postSchema,
@@ -44,28 +40,22 @@ const projects = defineCollection({
   schema: projectSchema,
 })
 
+// External data sources (`githubReleasesLoader`, `githubPrsLoader`,
+// `feedLoader`) have been replaced with empty glob loaders so CI no
+// longer depends on outbound network access — runners occasionally
+// fail DNS or TCP handshakes to GitHub / astro.build, which surfaced
+// as `fetch failed` during `pnpm check` and aborted the job.
+//
+// The corresponding npm packages and view code are intentionally kept
+// in place; see `src/content.config.example.ts` for the restored
+// configuration when you want to wire `/releases`, `/prs` or
+// `/feeds` back to upstream data.
 const releases = defineCollection({
-  loader: githubReleasesLoader({
-    mode: 'repoList',
-    repos: [
-      'withastro/astro',
-      'withastro/starlight',
-      'lin-stephanie/astro-loaders',
-      'lin-stephanie/astro-antfustyle-theme',
-    ],
-    monthsBack: 2,
-    entryReturnType: 'byRelease',
-    clearStore: true,
-  }),
+  loader: glob({ base: './src/content/releases', pattern: '**/[^_]*.{md,mdx}' }),
 })
 
 const prs = defineCollection({
-  loader: githubPrsLoader({
-    search:
-      'repo:withastro/astro repo:withastro/starlight repo:lin-stephanie/astro-antfustyle-theme',
-    monthsBack: 1,
-    clearStore: true,
-  }),
+  loader: glob({ base: './src/content/prs', pattern: '**/[^_]*.{md,mdx}' }),
 })
 
 const highlights = defineCollection({
@@ -100,9 +90,7 @@ const streams = defineCollection({
 })
 
 const feeds = defineCollection({
-  loader: feedLoader({
-    url: 'https://astro.build/rss.xml',
-  }),
+  loader: glob({ base: './src/content/feeds', pattern: '**/[^_]*.{md,mdx}' }),
 })
 
 export const collections = {
