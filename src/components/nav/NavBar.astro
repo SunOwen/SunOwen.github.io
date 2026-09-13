@@ -8,6 +8,7 @@ import NavItem from '~/components/nav/NavItem.astro'
 import NavSwitch from '~/components/nav/NavSwitch.astro'
 
 import { UI } from '~/config'
+import { computeLocaleSwitchTarget } from '~/utils/locale-switch'
 
 const { navBarLayout, internalNavs, socialLinks } = UI
 const { left, right, mergeOnMobile } = navBarLayout
@@ -19,6 +20,28 @@ for (const item of new Set(left)) {
     )
   }
 }
+
+/**
+ * The locale switch button. The button is rendered as part of the
+ * `internalNavs` group but its target URL is computed at request time
+ * from the current path + locale so it jumps to the equivalent page in
+ * the other language. Pages without a bilingual counterpart (e.g.
+ * `/projects`, `/highlights`, `/404`) make this return null and the
+ * button disappears entirely.
+ */
+const switchTarget = await computeLocaleSwitchTarget(
+  Astro.url.pathname,
+  Astro.locals.locale,
+)
+
+/** Items that have a real link to render (skip the `localeSwitch`
+ * marker — that's handled separately below). The type predicate
+ * narrows the array element type so each entry satisfies the
+ * `LinkableInternalNav` shape that `NavItem` expects. */
+const linkableNavs = internalNavs.filter(
+  (item): item is Exclude<(typeof internalNavs)[number], { localeSwitch: true }> =>
+    !('localeSwitch' in item),
+)
 ---
 
 <header
@@ -45,9 +68,21 @@ for (const item of new Set(left)) {
             ) : key === 'rssLink' ? (
               <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
             ) : key === 'internalNavs' ? (
-              internalNavs.map((item) => (
-                <NavItem type="internal" {item} {mergeOnMobile} />
-              ))
+              <>
+                {linkableNavs.map((item) => (
+                  <NavItem type="internal" {item} {mergeOnMobile} />
+                ))}
+                {switchTarget && (
+                  <a
+                    href={switchTarget.href}
+                    title="English"
+                    aria-label="English"
+                    class="op-60 no-underline hover:op-100 op-transition"
+                  >
+                    <span class="i-ri-translate-2" aria-hidden="true" />
+                  </a>
+                )}
+              </>
             ) : (
               socialLinks.map((item) => (
                 <NavItem type="social" {item} {mergeOnMobile} />
@@ -74,9 +109,21 @@ for (const item of new Set(left)) {
             ) : key === 'rssLink' ? (
               <RssLink class={mergeOnMobile ? 'lt-md:hidden' : undefined} />
             ) : key === 'internalNavs' ? (
-              internalNavs.map((item) => (
-                <NavItem type="internal" {item} {mergeOnMobile} />
-              ))
+              <>
+                {linkableNavs.map((item) => (
+                  <NavItem type="internal" {item} {mergeOnMobile} />
+                ))}
+                {switchTarget && (
+                  <a
+                    href={switchTarget.href}
+                    title="English"
+                    aria-label="English"
+                    class="op-60 no-underline hover:op-100 op-transition"
+                  >
+                    <span class="i-ri-translate-2" aria-hidden="true" />
+                  </a>
+                )}
+              </>
             ) : (
               socialLinks.map((item) => (
                 <NavItem type="social" {item} {mergeOnMobile} />
@@ -90,8 +137,8 @@ for (const item of new Set(left)) {
       mergeOnMobile && (
         <NavSwitch>
           <Fragment slot="text">
-            {internalNavs.length !== 0 &&
-              internalNavs.map((item) => (
+            {linkableNavs.length !== 0 &&
+              linkableNavs.map((item) => (
                 <NavItem
                   type="internal"
                   {item}
@@ -110,8 +157,8 @@ for (const item of new Set(left)) {
               ))}
           </Fragment>
           <Fragment slot="icon">
-            {internalNavs.length !== 0 &&
-              internalNavs.map((item) => (
+            {linkableNavs.length !== 0 &&
+              linkableNavs.map((item) => (
                 <NavItem
                   type="internal"
                   {item}
