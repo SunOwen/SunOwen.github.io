@@ -12,6 +12,11 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Expose the auto-provisioned `GITHUB_TOKEN` to every step so the
+    # Astro loaders (`githubReleasesLoader`, `githubPrsLoader`) can
+    # authenticate against the GitHub API during `pnpm check` / build.
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -49,8 +54,6 @@ jobs:
         run: pnpm lint
 
       - name: 🚀 Build the project
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm build
 
       - name: ✅ Verify build output
