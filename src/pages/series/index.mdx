@@ -1,14 +1,13 @@
 ---
 title: 专栏
-subtitle: 按系列组织的长文合集
-description: 按系列（专栏）组织的博客文章合集
-bgType: false
+description: 按系列组织的长文合集
+subtitle: 选择语言 / Choose a language
 ogImage: true
 ---
 
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
-import SeriesView from '~/components/views/SeriesView.astro'
+import Link from '~/components/base/Link.astro'
 
 <BaseLayout
   title={frontmatter.title}
@@ -22,6 +21,23 @@ import SeriesView from '~/components/views/SeriesView.astro'
     subtitle={frontmatter.subtitle}
     isCentered={true}
   >
-    <SeriesView />
+    <div class="prose mx-auto text-center">
+      <p class="flex flex-wrap justify-center gap-6">
+        <Link
+          href="/series/zh/"
+          hreflang="zh-Hans"
+          class="rounded-md border border-solid b-[#8884] px-4 py-2 op-transition! hover:op-100!"
+        >
+          中文专栏
+        </Link>
+        <Link
+          href="/series/en/"
+          hreflang="en"
+          class="rounded-md border border-solid b-[#8884] px-4 py-2 op-transition! hover:op-100!"
+        >
+          Series (English)
+        </Link>
+      </p>
+    </div>
   </StandardLayout>
 </BaseLayout>

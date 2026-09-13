@@ -13,7 +13,7 @@ import {
 } from '~/utils/series'
 import { getMinutesRead } from '~/utils/data'
 import { withBasePath } from '~/utils/path'
-import { DEFAULT_LOCALE, t } from '~/utils/i18n'
+import { LOCALE_META, t } from '~/utils/i18n'
 
 export async function getStaticPaths() {
   const entries = await getSeriesEntries('en')
@@ -52,10 +52,10 @@ const items = await Promise.all(
 
 const alternates = entries.map((e) => {
   const eLocale = e.data.lang
-  const eDir = eLocale === DEFAULT_LOCALE ? '' : `/${eLocale}`
+  const eDir = LOCALE_META[eLocale].dir
   return {
     lang: eLocale,
-    href: withBasePath(`/series${eDir}/${slug}/`),
+    href: withBasePath(`/series/${eDir}/${slug}/`),
   }
 })
 
@@ -76,7 +76,10 @@ const emptyLabel = t(locale, 'empty')
       <div class="flex justify-center items-center gap-3 mt-2 op-60 text-sm">
         <span class={icon} aria-hidden="true" />
         <span>{countPostsLabel}</span>
-        <Link class="op-transition" href={withBasePath('/series/en/')}>
+        <Link
+          class="op-transition"
+          href={withBasePath(`/series/${LOCALE_META[locale].dir}/`)}
+        >
           {backLabel}
         </Link>
       </div>

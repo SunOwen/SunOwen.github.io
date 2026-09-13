@@ -10,7 +10,7 @@ giscus: true
 search: true
 ---
 
-This post guides you on recreating the [`/releases`](../../releases/) and [`/prs`](../../prs/) pages in the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme) to showcase your GitHub releases and pull requests.
+This post guides you on recreating the [`/releases`](releases/) and [`/prs`](prs/) pages in the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme) to showcase your GitHub releases and pull requests.
 
 ## Configure Build-time Loaders
 
@@ -58,7 +58,7 @@ export const collections = {
 
 ## Update Page Content
 
-Depending on your loader configuration, you can modify the settings in `src/config.ts` that affect the UI of these two pages. Refer to the [`UI.githubView` option](../basic-configuration/#githubview) for specific details.
+Depending on your loader configuration, you can modify the settings in `src/config.ts` that affect the UI of these two pages. Refer to the [`UI.githubView` option](basic-configuration/#githubview) for specific details.
 
 In `src/pages/releases.mdx` and `src/pages/prs.mdx`, you can update the frontmatter and directly modify the titles and subtitles rendered on the pages.
 

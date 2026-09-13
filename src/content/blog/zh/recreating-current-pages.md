@@ -14,11 +14,11 @@ You can use any view from the [Astro AntfuStyle Theme](https://github.com/lin-st
 
 This post shows how to recreate the [`/`](#homepage), [`/projects`](#projects), [`/highlights`](#highlights), [`/photos`](#photos), [`/shorts`](#shorts), [`/changelog`](#changelog), [`/streams`](#streams), [`/feeds`](#feeds) and [`404`](#404) pages, add new ones, or remove existing ones. 
 
-For `/releases` and `/prs`, check out [Customizing GitHub Activity Pages](../customizing-github-activity-pages/).
+For `/releases` and `/prs`, check out [Customizing GitHub Activity Pages](customizing-github-activity-pages/).
 
 ## Creating Pages
 
-In [Project Structure](../project-structure/), it is mentioned that the theme’s organizational strategy is to store all substantive content in the `src/content/` directory, while the `src/pages/` directory uses `.mdx` files to assemble content into structured, styled layouts.
+In [Project Structure](project-structure/), it is mentioned that the theme’s organizational strategy is to store all substantive content in the `src/content/` directory, while the `src/pages/` directory uses `.mdx` files to assemble content into structured, styled layouts.
 
 Open any `.mdx` file in `src/pages/`, and you'll notice a similar structure: YAML frontmatter + imported Astro components + JSX with layout components nesting view components.
 
@@ -56,7 +56,7 @@ To update the homepage, open `src/content/home/index.md` and start writing the c
 > 
 > Since the `home` collection doesn't have a defined schema in `src/content.config.ts`, you don't need to write any frontmatter. Just focus on the main content, and it will work fine.
 
-### [`/projects`](../../projects/)
+### [`/projects`](projects/)
 
 Open `src/content/projects/data.json`, delete the existing content, and write your own.
 
@@ -78,7 +78,7 @@ Finally, update the frontmatter in `src/pages/projects.mdx`.
 >
 > It is required by Astro's [`file()` loader](https://docs.astro.build/en/reference/content-loader-reference/#file-loader) to create entries properly.
 
-### [`/highlights`](../../highlights/)
+### [`/highlights`](highlights/)
 
 Similar to the `/feeds` page, the `/highlights` page displays content retrieved via :link[astro-loader-bluesky-posts]{id=https://www.npmjs.com/package/astro-loader-bluesky-posts}. You can reconfigure it in `src/content.config.ts` by referring to the loader's README, specifying the Bluesky posts to fetch:
 
@@ -261,7 +261,7 @@ This is a sample highlight entry for the `/highlights` page.
 >
 > Starting in [Astro 6](https://astro.build/blog/astro-6/#live-content-collections), you can create [live content collections](https://docs.astro.build/en/guides/content-collections/#live-content-collections) with [live loaders](https://docs.astro.build/en/reference/content-loader-reference/#live-loaders), which fetch content at request time (no rebuild). With [on-demand rendering](https://docs.astro.build/en/guides/on-demand-rendering/), use the plugins’ live loaders instead of build-time loaders.
 
-### [`/photos`](../../photos/)
+### [`/photos`](photos/)
 
 Photos on the `/photos` page are manually configured in `src/content/photos/data.json`. Both local and public remote images are supported and can be mixed. This page can also showcase designs, illustrations, and other images — not just photos.
 
@@ -308,9 +308,9 @@ For remote images, `id` must start with `http` or `https`. To enable thumbnail g
 >
 > If needed, delete `'./node_modules/.astro/photos/'` to clear the cache.
 
-### [`/shorts`](../../shorts/)
+### [`/shorts`](../../../shorts/)
 
-To recreate the `/shorts` page, please follow the [Adding New Posts](../adding-new-posts/). The content for the `/shorts` page, stored in `src/content/shorts/`, belongs to the `shorts` collection and uses `postSchema`.
+To recreate the `/shorts` page, please follow the [Adding New Posts](adding-new-posts/). The content for the `/shorts` page, stored in `src/content/shorts/`, belongs to the `shorts` collection and uses `postSchema`.
 
 In the current implementation, `/shorts` renders with `CardView` in `grid` mode and enables tag filtering on top of `CardItem` entries.
 
@@ -320,13 +320,13 @@ In the current implementation, `/shorts` renders with `CardView` in `grid` mode 
 > 
 > For example, `/highlights` (`src/pages/highlights.mdx`) uses `'masonry'`, while `/shorts` (`src/pages/shorts/index.mdx`) uses `'grid'`. You can customize `CardView` based on your data and layout needs.
 
-### [`/changelog`](../../changelog/)
+### [`/changelog`](changelog/)
 
-To recreate the `/changelog` page, please follow the [Adding New Posts](../adding-new-posts/). The content for the `/changelog` page, stored in `src/content/changelog/`, belongs to the `changelog` collection and uses `postSchema`.
+To recreate the `/changelog` page, please follow the [Adding New Posts](adding-new-posts/). The content for the `/changelog` page, stored in `src/content/changelog/`, belongs to the `changelog` collection and uses `postSchema`.
 
 In the current implementation, the `/changelog` index page renders `ListView` with both TOC grouping and tag filtering enabled.
 
-### [`/streams`](../../streams/)
+### [`/streams`](streams/)
 
 Similarly to adding projects,  open `src/content/streams/data.json`, delete the existing, and write your own.
 
@@ -349,7 +349,7 @@ Finally, update the frontmatter in `src/pages/streams.mdx`.
 >
 > It is required by Astro's [`file()` loader](https://docs.astro.build/en/reference/content-loader-reference/#file-loader) to create entries properly.
 
-### [`/feeds`](../../feeds/)
+### [`/feeds`](feeds/)
 
 The `/feeds` page displays content retrieved via :link[@ascorbic/feed-loader]{id=https://www.npmjs.com/package/@ascorbic/feed-loader}. You can define an external data source (like RSS, RDF, or Atom feeds) for the `feeds` collection using the following:
 
@@ -363,7 +363,7 @@ const feeds = defineCollection({
 })
 ```
 
-### [`404`](../../404/)
+### [`404`](../../404)
 
 To update the 404 page, you can directly edit `src/pages/404.mdx`.
 

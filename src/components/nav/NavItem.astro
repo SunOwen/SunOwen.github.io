@@ -4,10 +4,14 @@ import { resolvePath } from '~/utils/path'
 
 import type { InternalNav, SocialLink } from '~/types'
 
+/** `InternalNav` minus the `localeSwitch` marker — that one is rendered
+ * separately by `NavBar.astro`. */
+type LinkableInternalNav = Exclude<InternalNav, { localeSwitch: true }>
+
 type Props =
   | {
       type: 'internal'
-      item: InternalNav
+      item: LinkableInternalNav
       mergeOnMobile: boolean
       mobileItemType?: 'text' | 'icon'
     }

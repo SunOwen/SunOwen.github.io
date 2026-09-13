@@ -8,33 +8,42 @@ import {
   type Locale,
 } from '~/utils/i18n'
 
-/**
- * URL prefixes that take a non-default locale segment.
- *
- * When a path matches one of these prefixes, the segment **after** the prefix
- * is the locale. Anything else is the default locale. Centralising the list
- * keeps the rule readable and easy to extend when new collections become
- * bilingual.
- */
-const LOCALIZED_PREFIXES = ['/blog', '/shorts', '/changelog', '/series'] as const
-
 const LOCALE_BY_DIR = new Map(
   prefixedLocales().map((locale) => [LOCALE_META[locale].dir, locale]),
 )
 
 /**
+ * URL prefixes whose second segment is a locale directory.
+ *
+ * For each collection (blog, series, shorts, changelog) the URL
+ * `/<prefix>/<dir>/...` selects a locale; the bare `/<prefix>/` page
+ * is the language entry and renders in the default locale.
+ *
+ * Centralising the list keeps the rule readable and easy to extend
+ * when new collections become bilingual.
+ */
+const LOCALIZED_PREFIXES = ['/blog', '/series', '/shorts', '/changelog'] as const
+
+function isLocaleDir(segment: string): segment is Locale {
+  return (LOCALES as readonly string[]).includes(segment)
+}
+
+/**
  * Derives the locale from the URL pathname.
  *
- * The default locale has no URL prefix; non-default locales insert a segment
- * immediately after the collection prefix (e.g. `/blog/en/foo/`). Series
- * pages follow the same rule (`/series/en/<id>/`). Pages outside a localised
- * prefix fall back to the default locale.
+ * Pattern:
+ * - `/`                                  -> default locale
+ * - `/<prefix>/<dir>/...`                -> locale matching `<dir>`
+ * - `/<prefix>/...` (bare, no dir)       -> default locale
+ *
+ * `<dir>` is matched against the configured locale directories
+ * (`zh/`, `en/`). All non-default locales are reached through a
+ * directory prefix; nothing sits at the collection root.
  */
 function localeFromPath(pathname: string): Locale {
   const segments = pathname.split('/').filter(Boolean)
   if (segments.length === 0) return DEFAULT_LOCALE
 
-  // Two-segment patterns: /<prefix>/<dir>/...
   for (const prefix of LOCALIZED_PREFIXES) {
     const prefixSegments = prefix.split('/').filter(Boolean)
     if (
@@ -42,8 +51,8 @@ function localeFromPath(pathname: string): Locale {
       prefixSegments.every((seg, i) => segments[i] === seg)
     ) {
       const candidate = segments[prefixSegments.length]
-      if (candidate && (LOCALES as readonly string[]).includes(candidate)) {
-        return candidate as Locale
+      if (isLocaleDir(candidate)) {
+        return LOCALE_BY_DIR.get(candidate) ?? DEFAULT_LOCALE
       }
       return DEFAULT_LOCALE
     }

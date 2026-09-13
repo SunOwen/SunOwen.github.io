@@ -13,11 +13,10 @@ import {
 } from '~/utils/series'
 import { getMinutesRead } from '~/utils/data'
 import { withBasePath } from '~/utils/path'
-import { DEFAULT_LOCALE, LOCALE_META, t } from '~/utils/i18n'
+import { LOCALE_META, t } from '~/utils/i18n'
 
 export async function getStaticPaths() {
-  const entries = await getSeriesEntries(DEFAULT_LOCALE)
-  // Walk all unique slugs; for each slug, emit one path per available locale.
+  const entries = await getSeriesEntries('zh-Hans')
   const slugs = Array.from(new Set(entries.map(seriesSlug)))
   return slugs.map((slug) => ({
     params: { series: slug },
@@ -25,7 +24,7 @@ export async function getStaticPaths() {
   }))
 }
 
-const locale = DEFAULT_LOCALE
+const locale = 'zh-Hans' as const
 const { slug } = Astro.props
 
 const entries = await getSeriesTranslations(slug)

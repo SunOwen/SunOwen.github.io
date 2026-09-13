@@ -4,23 +4,34 @@ import { fileURLToPath } from 'node:url'
 import { defineCollection } from 'astro:content'
 import { z } from 'astro/zod'
 
-import { LOCALES } from '~/utils/i18n'
-
-import type { Locale } from '~/utils/i18n'
+import { LOCALES, LOCALE_META, type Locale } from '~/utils/i18n'
 
 const seriesDir = new URL('../content/series/', import.meta.url)
 
 /**
+ * Reverse-lookup: which locale's `dir` matches this file name?
+ * E.g. `zh.json` -> `zh-Hans`, `en.json` -> `en`.
+ */
+function localeFromFileName(fileName: string): Locale | undefined {
+  const dir = fileName.replace(/\.json$/, '')
+  return (Object.keys(LOCALE_META) as Locale[]).find(
+    (locale) => LOCALE_META[locale].dir === dir,
+  )
+}
+
+/**
  * Astro's data store requires entry ids to be unique. Two entries with the
- * same slug (e.g. `astro-in-action` for both `en.json` and `zh-Hans.json`)
- * would otherwise collide. We work around this by giving the *entry id* a
- * locale prefix (`en/astro-in-action`, `zh-Hans/astro-in-action`), then
- * stripping the prefix back off when callers want the bare slug for URLs.
+ * same slug (e.g. `astro-in-action` for both `en.json` and `zh.json`) would
+ * otherwise collide. We work around this by giving the *entry id* a
+ * locale-prefix matching the source file (`en/astro-in-action`,
+ * `zh/astro-in-action`), then stripping the prefix back off when callers
+ * want the bare slug for URLs.
  */
 export function stripLocalePrefixFromEntryId(id: string): string {
   for (const locale of LOCALES) {
-    if (locale === 'zh-Hans') continue // default locale has no prefix
-    const prefix = `${locale}/`
+    const dir = LOCALE_META[locale].dir
+    if (!dir) continue
+    const prefix = `${dir}/`
     if (id.startsWith(prefix)) return id.slice(prefix.length)
   }
   return id
@@ -32,7 +43,18 @@ async function loadSeries() {
 
   for (const file of files) {
     if (!file.endsWith('.json')) continue
-    const fileLocale = file.replace(/\.json$/, '') as Locale
+    const fileLocale = localeFromFileName(file)
+    if (!fileLocale) {
+      throw new Error(
+        `Series file "${file}" does not match any configured locale directory (${Object.values(
+          LOCALE_META,
+        )
+          .map((m) => m.dir)
+          .filter(Boolean)
+          .join(', ')})`,
+      )
+    }
+    const fileDir = LOCALE_META[fileLocale].dir
     const contents = await readFile(new URL(file, seriesDir), 'utf-8')
     const data = JSON.parse(contents)
     if (!Array.isArray(data)) {
@@ -48,8 +70,7 @@ async function loadSeries() {
       // property as the unique data-store key. We strip `item.id` (the bare
       // slug) from the spread so the prefixed `entryId` is the only `id` in
       // the persisted object — keeping the schema clean of the locale prefix.
-      const entryId =
-        fileLocale === 'zh-Hans' ? item.id : `${fileLocale}/${item.id}`
+      const entryId = `${fileDir}/${item.id}`
       const { id: _slug, ...rest } = item
       entries.push({ ...rest, id: entryId })
     }

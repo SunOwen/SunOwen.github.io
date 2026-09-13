@@ -12,7 +12,7 @@ series: astro-in-action
 seriesOrder: 3
 ---
 
-This post is a basic guide on how to configure the `src/config.ts` file. If you’ve already set it up or feel confident configuring it (a simple task with type hints appearing on hover), you can skip ahead to [Advanced Configuration](../advanced-configuration/).
+This post is a basic guide on how to configure the `src/config.ts` file. If you’ve already set it up or feel confident configuring it (a simple task with type hints appearing on hover), you can skip ahead to [Advanced Configuration](advanced-configuration/).
 
 ## Configuring `SITE`
 
@@ -64,7 +64,7 @@ The `UI` object allows you to configure navigation, social links, page views, an
 | `title`       | `string`                                                                                                       | Sets the content displayed on hover for accessibility.                                                                                                 | `'Blog'`                                                                                                                                                                                                                                                         |
 | `displayMode` | `'alwaysText'` \| `'alwaysIcon'` \| `'textHiddenOnMobile'` \| `'iconHiddenOnMobile'` \| `'textToIconOnMobile'` \| `'iconToTextOnMobile'` | Defines how the navigation item is displayed responsively. Different modes control the visibility of text or icon depending on the viewport size.      | `'iconToTextOnMobile'`                                                                                                                                                                                                                                           |
 | `text`        | `string`                                                                                                       | Sets the text displayed for the navigation item. Required for `displayMode` values `'alwaysText'`, `'textHiddenOnMobile'`, `'textToIconOnMobile'` or `'iconToTextOnMobile'`. | `'Blog'`                                                                                                                                                                                                                                                         |
-| `icon`        | `Icon`                                                                                                         | Sets the icon displayed for the navigation item. Required for `displayMode` values `'alwaysIcon'`, `'iconHiddenOnMobile'`, `'textToIconOnMobile'` or `'iconToTextOnMobile'`. | `'i-ri-article-line'`<br>(The icon format follows the `i-<collection>-<icon>` or `i-<collection>:<icon>` format as per [UnoCSS specs](https://unocss.dev/presets/icons). See [Icon Usage](../../shorts/icon-usage/) for details on setting up icons.) |
+| `icon`        | `Icon`                                                                                                         | Sets the icon displayed for the navigation item. Required for `displayMode` values `'alwaysIcon'`, `'iconHiddenOnMobile'`, `'textToIconOnMobile'` or `'iconToTextOnMobile'`. | `'i-ri-article-line'`<br>(The icon format follows the `i-<collection>-<icon>` or `i-<collection>:<icon>` format as per [UnoCSS specs](https://unocss.dev/presets/icons). See [Icon Usage](../../../shorts/icon-usage/) for details on setting up icons.) |
 
 ### `socialLink`
 
@@ -74,7 +74,7 @@ The `UI` object allows you to configure navigation, social links, page views, an
 | `title`       | `string`                                                                                                       | Sets the content displayed on hover for accessibility.                                                                                             | `Follow ${SITE.author} on Twitter`                                                                                                                                                                                                                               |
 | `displayMode` | `'alwaysText'` \| `'alwaysIcon'` \| `'textHiddenOnMobile'` \| `'iconHiddenOnMobile'` \| `'textToIconOnMobile'` \| `'iconToTextOnMobile'` | Defines how the social item is displayed responsively. Different modes control the visibility of text or icon depending on the viewport size.      | `'alwaysIcon'`                                                                                                                                                                                                                                                   |
 | `text`        | `string`                                                                                                       | Sets the text displayed for the social item. Required for `displayMode` values `'alwaysText'`, `'textHiddenOnMobile'`, `'textToIconOnMobile'` or `'iconToTextOnMobile'`. | `'GitHub'`                                                                                                                                                                                                                                                       |
-| `icon`        | `Icon`                                                                                                         | Sets the icon displayed for the social item. Required for `displayMode` values `'alwaysIcon'`, `'iconHiddenOnMobile'`, `'textToIconOnMobile'` or `'iconToTextOnMobile'`. | `'i-ri-article-line'`<br>(The icon format follows the `i-<collection>-<icon>` or `i-<collection>:<icon>` format as per [UnoCSS specs](https://unocss.dev/presets/icons). See [Icon Usage](../../shorts/icon-usage/) for details on setting up icons.) |
+| `icon`        | `Icon`                                                                                                         | Sets the icon displayed for the social item. Required for `displayMode` values `'alwaysIcon'`, `'iconHiddenOnMobile'`, `'textToIconOnMobile'` or `'iconToTextOnMobile'`. | `'i-ri-article-line'`<br>(The icon format follows the `i-<collection>-<icon>` or `i-<collection>:<icon>` format as per [UnoCSS specs](https://unocss.dev/presets/icons). See [Icon Usage](../../../shorts/icon-usage/) for details on setting up icons.) |
 
 ### `navBarLayout`
 
@@ -163,7 +163,7 @@ The `FEATURES` object globally controls the activation and configuration of spec
 
 ### `giscus`
 
-Refer to [Configure Giscus Comments](../advanced-configuration/#configure-giscus-comments) for additional details.
+Refer to [Configure Giscus Comments](advanced-configuration/#configure-giscus-comments) for additional details.
 
 | Option                                 | Type                  | Description                                     | Example                                  |
 | -------------------------------------- | --------------------- | ----------------------------------------------- | ---------------------------------------- |
@@ -196,7 +196,7 @@ Refer to [Configure Giscus Comments](../advanced-configuration/#configure-giscus
 | `displayMode`     | `'always' \| 'content' \| 'hover'`   | Controls how the tag filter is displayed. Allowed values:<br>`'always'`: always visible.<br>`'content'`: shown when hovering over the content area.<br>`'hover'`: shown on hover only. | `'content'` |
 | `filterMode`      | `'AND' \| 'OR'`                      | Controls tag matching logic. `'AND'` requires all selected tags. `'OR'` requires any selected tag.                                                                                    | `'AND'`     |
 
-After making these changes, ensure the project runs smoothly in the browser before moving on to [Advanced Configuration](../advanced-configuration/). 🧗‍♂️
+After making these changes, ensure the project runs smoothly in the browser before moving on to [Advanced Configuration](advanced-configuration/). 🧗‍♂️
  
 :::details
 ::summary[Changelog]

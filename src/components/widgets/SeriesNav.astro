@@ -17,7 +17,7 @@ if (!series || !series.meta) return
 const { meta, total, index, prev, next } = series
 const postLocale = getPostLocale(post)
 const dir = LOCALE_META[postLocale].dir
-const baseSegment = dir ? `/${dir}` : ''
+const baseSegment = `/${dir}`
 const seriesHref = withBasePath(`/series${baseSegment}/${seriesSlug(meta)}/`)
 const locale = Astro.locals.locale
 ---

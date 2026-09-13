@@ -335,7 +335,7 @@ Use the [`:::image`](https://github.com/lin-stephanie/remark-directive-sugar?tab
 
 ```md title=':::image-figure.md'
 :::image-figure[This Is a **Figcaption** with _`<figure>` Attrs_]{style="text-align:center;color:orange"}
-![](../../assets/markdown-mdx-extended-featurs/og-image.png)
+![](../../../assets/markdown-mdx-extended-featurs/og-image.png)
 :::
 
 :::image-figure[This is a **figcaption** with _`<img>` attrs_.]
@@ -367,7 +367,7 @@ Use the [`:::image`](https://github.com/lin-stephanie/remark-directive-sugar?tab
 ```
 
 :::image-figure[This Is a **Figcaption** with _`<figure>` Attrs_]{style="text-align:center;color:orange"}
-![](../../assets/markdown-mdx-extended-featurs/og-image.png)
+![](../../../assets/markdown-mdx-extended-featurs/og-image.png)
 :::
 
 :::image-figure[This is a **figcaption** with _`<img>` attrs_.]

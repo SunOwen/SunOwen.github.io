@@ -47,7 +47,7 @@ These are ideal conditions, but feel free to substitute with tools you're comfor
 > 
 > Alternatively, you can [enable `corepack`](https://github.com/nodejs/corepack) (allows you to manage package manager versions directly via Node.js) or [install the `ni` tool](https://github.com/antfu-collective/ni) (simplifies running commands across different package managers).
 >
-> If you want to use a different package manager, make sure to [convert the project to your chosen package manager](../../shorts/revert-from-pnpm-to-npm-or-yarn/) before running its commands.
+> If you want to use a different package manager, make sure to [convert the project to your chosen package manager](../../../shorts/revert-from-pnpm-to-npm-or-yarn/) before running its commands.
 
 ## Create Your Project
 
@@ -124,26 +124,26 @@ You can explore the current theme freely. Additionally, the following commands a
 > 
 > If no GitHub PAT is set, a warning appears in the console after running `pnpm dev`.  
 >
-> To remove these pages, see [Removing Pages](../recreating-current-pages/#removing-pages).  
+> To remove these pages, see [Removing Pages](recreating-current-pages/#removing-pages).  
 >
-> To show GitHub activity, see [Customizing GitHub Activity Pages](../customizing-github-activity-pages/).  
+> To show GitHub activity, see [Customizing GitHub Activity Pages](customizing-github-activity-pages/).  
 
 ## Configure the Project
 
-Before configuring, it is advisable to review [**Project Structure**](../project-structure/) for an overview of the project and how it’s organized. Configuration can be done in two steps:
+Before configuring, it is advisable to review [**Project Structure**](project-structure/) for an overview of the project and how it’s organized. Configuration can be done in two steps:
 
-- [**Basic Configuration**](../basic-configuration/): Customize the `src/config.ts` file.
-- [**Advanced Configuration**](../advanced-configuration/): Customize the logo, site icons, styles, fonts and more.
+- [**Basic Configuration**](basic-configuration/): Customize the `src/config.ts` file.
+- [**Advanced Configuration**](advanced-configuration/): Customize the logo, site icons, styles, fonts and more.
 
 ## Authoring Content
 
 Once configured, ensure the project is running correctly in your browser, then start creating or migrating your content. Jump to the section you're interested in:
 
-- [**Adding New Posts**](../adding-new-posts/): How to create posts with tips and guidelines.
-- [**Recreating Current Pages**](../recreating-current-pages/): Steps to recreate content for the `/`, `/projects`, `/highlights`, `photos`, `/shorts`, `/changelog`, `/streams`, `/feeds` and `404` pages, as well as creating and removing pages.
-- [**Customizing GitHub Activity Pages**](../customizing-github-activity-pages/): Showcase your project releases or pull requests on GitHub.
-- [**Markdown Syntax Guide**](../markdown-syntax-guide/): Showcase of Markdown rendering in this theme.
-- [**Markdown/MDX Extended Features**](../markdown-mdx-extended-features/): Advanced features like callouts, code blocks, image captions, video embedding, and more.
+- [**Adding New Posts**](adding-new-posts/): How to create posts with tips and guidelines.
+- [**Recreating Current Pages**](recreating-current-pages/): Steps to recreate content for the `/`, `/projects`, `/highlights`, `photos`, `/shorts`, `/changelog`, `/streams`, `/feeds` and `404` pages, as well as creating and removing pages.
+- [**Customizing GitHub Activity Pages**](customizing-github-activity-pages/): Showcase your project releases or pull requests on GitHub.
+- [**Markdown Syntax Guide**](markdown-syntax-guide/): Showcase of Markdown rendering in this theme.
+- [**Markdown/MDX Extended Features**](markdown-mdx-extended-features/): Advanced features like callouts, code blocks, image captions, video embedding, and more.
 
 ## Deploy Your Project
 
@@ -155,19 +155,19 @@ Refer to [Astro’s Deployment Guide](https://docs.astro.build/en/guides/deploy/
 
 ## Sync Updates
 
-This theme gets ongoing improvements, with a new version usually released at the end of each month. To stay current, sync the latest changes (see the [**Sync Updates**](../sync-updates/)).
+This theme gets ongoing improvements, with a new version usually released at the end of each month. To stay current, sync the latest changes (see the [**Sync Updates**](sync-updates/)).
 
-For update details, visit the [changelog](../../changelog/) or [releases](https://github.com/lin-stephanie/astro-antfustyle-theme/releases) (both contain the same info). To get notified, subscribe to the [theme’s GitHub releases](https://github.com/lin-stephanie/astro-antfustyle-theme/releases.atom).
+For update details, visit the [changelog](changelog/) or [releases](https://github.com/lin-stephanie/astro-antfustyle-theme/releases) (both contain the same info). To get notified, subscribe to the [theme’s GitHub releases](https://github.com/lin-stephanie/astro-antfustyle-theme/releases.atom).
 
 ## Next Steps
 
 You can dive deeper into the theme through the following sections:
 
-- [**Managing Image Assets**](../managing-image-assets/): Best practices for using images in Markdown/MDX.
-- [**About Open Graph Images**](../about-open-graph-images/): How to customize or auto-generate Open Graph images.
-- [**FAQs and Known Issues**](../../shorts/): Get more insights into the theme's details.
+- [**Managing Image Assets**](managing-image-assets/): Best practices for using images in Markdown/MDX.
+- [**About Open Graph Images**](about-open-graph-images/): How to customize or auto-generate Open Graph images.
+- [**FAQs and Known Issues**](../../../shorts/): Get more insights into the theme's details.
 
-Additionally, feel free to explore the theme's [tech stack](../../projects/). For parts not mentioned or clarified in the guide, you might find answers in the [Astro Docs](https://docs.astro.build/en/getting-started/). You can also follow the [Astro Blog](https://astro.build/blog/) or join the [Astro Lounge](https://discord.com/invite/grF4GTXXYm) community.
+Additionally, feel free to explore the theme's [tech stack](projects/). For parts not mentioned or clarified in the guide, you might find answers in the [Astro Docs](https://docs.astro.build/en/getting-started/). You can also follow the [Astro Blog](https://astro.build/blog/) or join the [Astro Lounge](https://discord.com/invite/grF4GTXXYm) community.
 
 ## Wrapping Up
 

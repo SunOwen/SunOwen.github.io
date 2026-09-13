@@ -108,17 +108,17 @@ The template (located in `src/utils/og-image/template/markup.ts`) for auto-gener
 - `title`: Set in the Markdown/MDX frontmatter for posts and pages. If missing, empty, or identical to `authorOrBrand`, it falls back to `FEATURES.ogImage[1].fallbackTitle`. The fallback OG image also uses `fallbackTitle`.
 - `bgType`: Set in the Markdown/MDX frontmatter for posts and pages. If missing, `false`, or invalid, it falls back to `FEATURES.ogImage[1].fallbackBgType`. The fallback OG image also uses `fallbackBgType`.
 
-For details on how to replace the logo in the template, refer to [Advanced Configuration - Customizing Logo](../advanced-configuration/#customizing-logo).
+For details on how to replace the logo in the template, refer to [Advanced Configuration - Customizing Logo](advanced-configuration/#customizing-logo).
 
 Below are the OG images generated with `bgType` set to `plum`, `rose`, `dot`, and `particle`:
 
-![](../../assets/about-open-graph-images/plum.png)
+![](../../../assets/about-open-graph-images/plum.png)
 
-![](../../assets/about-open-graph-images/rose.png)
+![](../../../assets/about-open-graph-images/rose.png)
 
-![](../../assets/about-open-graph-images/dot.png)
+![](../../../assets/about-open-graph-images/dot.png)
 
-![](../../assets/about-open-graph-images/particle.png)
+![](../../../assets/about-open-graph-images/particle.png)
 
 ## How This Theme Automatically Generates OG Images
 
@@ -152,7 +152,7 @@ Only entries with `ogImage: true`, a valid title, and no `draft` or `redirect` f
 
 ## Extra Tips
 
-Auto-generated OG images are compressed with :link[sharp]{id=lovell/sharp .github}. For custom images, consider [manual compression](../managing-image-assets/#image-compression).
+Auto-generated OG images are compressed with :link[sharp]{id=lovell/sharp .github}. For custom images, consider [manual compression](managing-image-assets/#image-compression).
 
 `public/og-images` is only for explicitly configured custom images. If a file in `public/og-images` matches the path of an auto-generated endpoint, including `public/og-images/og-image.png`, the build warns and skips generating that endpoint to avoid an output conflict. Delete the static file to let the endpoint generate it, or set `ogImage` to that filename to intentionally use the static image.
 

@@ -1,0 +1,27 @@
+---
+title: 专栏
+subtitle: 按系列组织的长文合集
+description: 中文系列（专栏）列表
+bgType: false
+ogImage: true
+---
+
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import StandardLayout from '~/layouts/StandardLayout.astro'
+import SeriesView from '~/components/views/SeriesView.astro'
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  bgType={frontmatter.bgType}
+  ogImage={frontmatter.ogImage}
+>
+  <StandardLayout
+    class="max-w-300 group/content"
+    title={frontmatter.title}
+    subtitle={frontmatter.subtitle}
+    isCentered={true}
+  >
+    <SeriesView />
+  </StandardLayout>
+</BaseLayout>

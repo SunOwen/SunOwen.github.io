@@ -96,6 +96,8 @@ export interface Site {
 export type Icon = `i-${string}-${string}` | `i-${string}:${string}`
 export type RepoWithOwner = `${string}/${string}`
 
+type NavLocale = 'zh-Hans' | 'en'
+
 interface BaseNavItem {
   /**
    * Specifies the navigation path. It must start with `/`.
@@ -109,6 +111,31 @@ interface BaseNavItem {
    * Sets the content displayed on hover for accessibility.
    */
   title: string
+
+  /**
+   * Optional bilingual override. When present, the rendered text picks
+   * the entry matching the current locale (via `Astro.locals.locale`),
+   * falling back to the default locale, then to the static `title` /
+   * `text` fields. Lets a single nav item render as "博客" in
+   * zh-Hans and "Blog" in en without duplicating the config entry.
+   */
+  titleI18n?: Partial<Record<NavLocale, string>>
+  textI18n?: Partial<Record<NavLocale, string>>
+}
+
+/**
+ * Marker for the dynamic locale-switch button.
+ *
+ * When present, `NavBar` ignores `path` and instead computes the target
+ * URL via `computeLocaleSwitchTarget(pathname, currentLocale)` so the
+ * button jumps to the equivalent page in the other locale. On pages
+ * that have no bilingual counterpart (e.g. `/projects`, `/404`) the
+ * button hides itself entirely.
+ */
+interface LocaleSwitchMarker {
+  localeSwitch: true
+  title: string
+  titleI18n?: Partial<Record<NavLocale, string>>
 }
 
 interface TextNavItem extends BaseNavItem {
@@ -213,7 +240,11 @@ export interface ResponsiveNavItem extends BaseNavItem {
   icon: Icon
 }
 
-export type InternalNav = TextNavItem | IconNavItem | ResponsiveNavItem
+export type InternalNav =
+  | TextNavItem
+  | IconNavItem
+  | ResponsiveNavItem
+  | LocaleSwitchMarker
 
 interface BaseSocialItem {
   /**

@@ -1,14 +1,13 @@
 ---
-title: Blog
-description: How to use the Astro AntfuStyle Theme
-subtitle: How to use the Astro AntfuStyle Theme
-bgType: rose
+title: 博客
+description: 选择语言查看博客文章
+subtitle: Choose a language to view posts
 ogImage: true
 ---
 
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import StandardLayout from '~/layouts/StandardLayout.astro'
-import ListView from '~/components/views/ListView.astro'
+import Link from '~/components/base/Link.astro'
 
 <BaseLayout
   title={frontmatter.title}
@@ -16,11 +15,25 @@ import ListView from '~/components/views/ListView.astro'
   bgType={frontmatter.bgType}
   ogImage={frontmatter.ogImage}
 >
-  <StandardLayout
-    class="prose"
-    title={frontmatter.title}
-    subtitle={frontmatter.subtitle}
-  >
-    <ListView collectionType="blog" />
+  <StandardLayout title={frontmatter.title} subtitle={frontmatter.subtitle}>
+    <div class="prose mx-auto text-center">
+      <p>请选择语言 / Choose a language:</p>
+      <p class="mt-6 flex flex-wrap justify-center gap-6">
+        <Link
+          href="/blog/zh/"
+          hreflang="zh-Hans"
+          class="rounded-md border border-solid b-[#8884] px-4 py-2 op-transition! hover:op-100!"
+        >
+          中文
+        </Link>
+        <Link
+          href="/blog/en/"
+          hreflang="en"
+          class="rounded-md border border-solid b-[#8884] px-4 py-2 op-transition! hover:op-100!"
+        >
+          English
+        </Link>
+      </p>
+    </div>
   </StandardLayout>
 </BaseLayout>

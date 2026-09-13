@@ -8,7 +8,7 @@ import {
 
 import { UI } from './src/config'
 import projecstData from './src/content/projects/data.json'
-import seriesZhHans from './src/content/series/zh-Hans.json'
+import seriesZh from './src/content/series/zh.json'
 import seriesEn from './src/content/series/en.json'
 
 import type { PresetWind3Theme } from 'unocss'
@@ -24,6 +24,7 @@ const { internalNavs, socialLinks, githubView } = UI
 const navIcons = internalNavs
   .filter(
     (item) =>
+      'displayMode' in item &&
       item.displayMode !== 'alwaysText' &&
       item.displayMode !== 'textHiddenOnMobile'
   )
@@ -37,7 +38,7 @@ const socialIcons = socialLinks
   .map((item) => (item as IconSocialItem | ResponsiveSocialItem).icon)
 
 const projectIcons = projecstData.map((item) => item.icon)
-const seriesIcons = [...seriesZhHans, ...seriesEn].map((item) => item.icon)
+const seriesIcons = [...seriesZh, ...seriesEn].map((item) => item.icon)
 
 const githubVersionColor: Record<string, string> = {
   major: 'bg-rose/15 text-rose-700 dark:text-rose-300',

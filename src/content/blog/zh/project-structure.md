@@ -153,15 +153,15 @@ The current page-to-collection mapping is:
 | `/blog`                                               | `src/pages/blog/index.mdx`          | `src/content/blog/`                                              | `postSchema`            |
 | `/blog/post-name` <br>`/blog/sequences/one/two/three` | `src/pages/blog/[...slug].astro`    | `src/content/blog/`                                              | `postSchema`            |
 | `/projects`                                           | `src/pages/projects.mdx`            | `src/content/projects/`                                          | `projectSchema`         |
-| `/releases`                                           | `src/pages/releases.mdx`            | [Via build-time loader](../customizing-github-activity-pages/)   | Default by loader       |
-| `/prs`                                                | `src/pages/prs.mdx`                 | [Via build-time loader](../customizing-github-activity-pages/)   | Default by loader       |
-| `/highlights`                                         | `src/pages/highlights.mdx`          | [Via build-time loader](../recreating-current-pages/#highlights) | Default by loader       |
+| `/releases`                                           | `src/pages/releases.mdx`            | [Via build-time loader](customizing-github-activity-pages/)   | Default by loader       |
+| `/prs`                                                | `src/pages/prs.mdx`                 | [Via build-time loader](customizing-github-activity-pages/)   | Default by loader       |
+| `/highlights`                                         | `src/pages/highlights.mdx`          | [Via build-time loader](recreating-current-pages/#highlights) | Default by loader       |
 | `/photos`                                             | `src/pages/photos/index.mdx`        | `src/content/photos/`                                            | `photoSchema`           |
 | `/shorts`                                             | `src/pages/shorts/index.mdx`        | `src/content/shorts/`                                            | `postSchema`            |
 | `/shorts/post-name` <br>`/shorts/sequences/one/two/three` | `src/pages/shorts/[...slug].astro`  | `src/content/shorts/`                                            | `postSchema`            |
 | `/changelog`                                          | `src/pages/changelog/index.mdx`     | `src/content/changelog/`                                         | `postSchema`            |
 | `/changelog/post-name`                                | `src/pages/changelog/[slug].astro`  | `src/content/changelog/`                                         | `postSchema`            |
-| `/feeds`                                              | `src/pages/feeds.mdx`               | [Via build-time loader](../recreating-current-pages/#feeds)      | Default by loader       |
+| `/feeds`                                              | `src/pages/feeds.mdx`               | [Via build-time loader](recreating-current-pages/#feeds)      | Default by loader       |
 | `/streams`                                            | `src/pages/streams.mdx`             | `src/content/streams/`                                           | `streamSchema`          |
 
 ## File Usage Conventions
@@ -179,7 +179,7 @@ This convention is recommended because it keeps content authoring straightforwar
 >
 > `.mdx` route files can import layouts and views directly, which keeps each page entry concise.
 >
-> They are also loaded as the `pages` content collection in `src/content.config.ts`. This gives the OG image endpoint a structured way to query static pages, read their frontmatter, and [register page-specific image targets](../about-open-graph-images/#how-this-theme-automatically-generates-og-images) without relying on route files one by one.
+> They are also loaded as the `pages` content collection in `src/content.config.ts`. This gives the OG image endpoint a structured way to query static pages, read their frontmatter, and [register page-specific image targets](about-open-graph-images/#how-this-theme-automatically-generates-og-images) without relying on route files one by one.
 
 ## Other Notes
 
@@ -190,7 +190,7 @@ This convention is recommended because it keeps content authoring straightforwar
 
 Understanding this structure makes it much easier to customize the theme without mixing route setup, content authoring, and reusable UI logic together.
 
-For the next step, review [Basic Configuration](../basic-configuration/) or [Recreating Current Pages](../recreating-current-pages/). You can also explore [Managing Image Assets](../managing-image-assets/), or dive deeper into the [tech stack](../../projects/) used in the theme to better understand its capabilities.
+For the next step, review [Basic Configuration](basic-configuration/) or [Recreating Current Pages](recreating-current-pages/). You can also explore [Managing Image Assets](managing-image-assets/), or dive deeper into the [tech stack](projects/) used in the theme to better understand its capabilities.
 
 If you encounter any issues, find errors, or see opportunities for improvement as you explore the theme, feel free to join the [discussion](https://github.com/lin-stephanie/astro-antfustyle-theme/discussions), or submit an [issue](https://github.com/lin-stephanie/astro-antfustyle-theme/issues) or [pull request](https://github.com/lin-stephanie/astro-antfustyle-theme/pulls). Your feedback is highly appreciated! 
 

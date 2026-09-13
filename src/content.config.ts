@@ -21,7 +21,17 @@ const pages = defineCollection({
 })
 
 const home = defineCollection({
-  loader: glob({ base: './src/content/home', pattern: 'index.{md,mdx}' }),
+  // Load every `index*.md` / `index*.mdx` under `src/content/home/`.
+  // The default entry id is `index` (matches `pages/index.mdx`); locale
+  // variants live alongside it as `index.en.md`, `index.zh.md`, etc.
+  // `generateId` strips the file extension so each entry id equals its
+  // file stem, letting `pages/index.mdx` look up the right variant via
+  // `getEntry('home', 'index.<dir>')`.
+  loader: glob({
+    base: './src/content/home',
+    pattern: 'index*.{md,mdx}',
+    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ''),
+  }),
 })
 
 const blog = defineCollection({

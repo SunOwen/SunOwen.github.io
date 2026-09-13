@@ -9,11 +9,11 @@ import { LOCALE_META, t } from '~/utils/i18n'
 const locale = Astro.locals.locale
 const entries = await getSeriesEntries(locale)
 
-// Series overview lives at `/series/` for the default locale and at
-// `/series/<dir>/` for non-default locales. Build the prefix from the locale
-// metadata so we do not hard-code `'en'` here.
+// Series overview lives at `/series/<dir>/` for every locale — both the
+// default and the prefixed ones carry a directory segment. Build the prefix
+// from the locale metadata so we do not hard-code any locale here.
 const dir = LOCALE_META[locale].dir
-const baseSegment = dir ? `/${dir}` : ''
+const baseSegment = `/${dir}`
 
 const cards = await Promise.all(
   entries.map(async (entry, idx) => {

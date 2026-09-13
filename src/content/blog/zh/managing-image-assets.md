@@ -28,7 +28,7 @@ It is recommended to store the local images used in the post under the `src/asse
 <!-- Use a relative path or the import alias -->
 <!-- Astro optimizes these files: hashed names → `dist/_astro/` -->
 
-![Local image – relative path](../../assets/about-open-graph-images/plum.png)
+![Local image – relative path](../../../assets/about-open-graph-images/plum.png)
 ![Local image – alias](~/assets/about-open-graph-images/plum.png)
 
 <!-- Public images (`public/`) -->
@@ -48,8 +48,8 @@ It is recommended to store the local images used in the post under the `src/asse
 
 <!-- ❌ Invalid examples -->
 
-<img src=".../../assets/about-open-graph-images/plum.png" alt="Local image" />
-<Image src="../../assets/about-open-graph-images/plum.png" alt="Local image" />
+<img src=".../../../assets/about-open-graph-images/plum.png" alt="Local image" />
+<Image src="../../../assets/about-open-graph-images/plum.png" alt="Local image" />
 <Image src="https://example.com/remote-image.png" alt="Remote image" />
 ```
 
@@ -70,7 +70,7 @@ title: My Page title
 ---
 
 import { Image } from 'astro:assets';
-import plum from '../../assets/about-open-graph-images/plum.png';
+import plum from '../../../assets/about-open-graph-images/plum.png';
 
 # MDX Post
 
@@ -82,7 +82,7 @@ import plum from '../../assets/about-open-graph-images/plum.png';
 
 <Image src={plum} alt="A rocketship in space." />
 <img src={plum.src} alt="A rocketship in space." />
-![A rocketship in space](../../assets/about-open-graph-images/plum.png)
+![A rocketship in space](../../../assets/about-open-graph-images/plum.png)
 
 {/* Image stored in `public/` */}
 

@@ -12,7 +12,7 @@ series: astro-in-action
 seriesOrder: 4
 ---
 
-This post is an advanced guide on customizing the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme). If you have not yet configured the `src/config.ts` file, it is recommended to first review [Basic Configuration](../basic-configuration/).
+This post is an advanced guide on customizing the [Astro AntfuStyle Theme](https://github.com/lin-stephanie/astro-antfustyle-theme). If you have not yet configured the `src/config.ts` file, it is recommended to first review [Basic Configuration](basic-configuration/).
 
 ## Customizing Logo
 
@@ -60,12 +60,12 @@ You may need to adjust the SVG element's `width`, `height`, and `viewBox` attrib
 ```
 
 :::image-figure[Make sure to **adjust the parameters** as shown in the image.]
-![vercel-og-image-playground](../../assets/advanced-configuration/vercel-og-image-playground.png)
+![vercel-og-image-playground](../../../assets/advanced-configuration/vercel-og-image-playground.png)
 :::
 
 > [!important]- Adjust black elements in your logo
 > 
-> Since the [theme’s OG Images](../about-open-graph-images/#template-for-auto-generated-og-images) use dark backgrounds, modify any pure black elements in your logo to white for better visibility.
+> Since the [theme’s OG Images](about-open-graph-images/#template-for-auto-generated-og-images) use dark backgrounds, modify any pure black elements in your logo to white for better visibility.
 
 ## Replacing the Website Icon
 
@@ -169,7 +169,7 @@ If you don't need PWA support, you can delete `app.webmanifest.js`, `icon-192.pn
 
 ## Customizing Website Styles
 
-While the theme offers some quick [UI configuration options](../basic-configuration/#configuring-ui) in the `src/config.ts`, these are limited. If you're familiar with CSS, you can fully customize the website styles, but it's recommended to follow the methods outlined below.
+While the theme offers some quick [UI configuration options](basic-configuration/#configuring-ui) in the `src/config.ts`, these are limited. If you're familiar with CSS, you can fully customize the website styles, but it's recommended to follow the methods outlined below.
 
 **Styling approaches**
 
@@ -262,7 +262,7 @@ For example, changing the font of group titles on the `/projects` page:
 
 ## Customizing Fonts
 
-Before changing font settings, read [Font Setup & Usage](../../shorts/font-setup-and-usage/) for the current font families, where they are used, and how they are loaded.
+Before changing font settings, read [Font Setup & Usage](../../../shorts/font-setup-and-usage/) for the current font families, where they are used, and how they are loaded.
 
 The theme uses [Astro Fonts](https://docs.astro.build/en/guides/fonts/) as the source of truth. A complete font configuration has three parts:
 
@@ -503,7 +503,7 @@ If you prefer to use Giscus's built-in themes directly, update `Giscus.astro`, `
 
 Finally, you may want to:
 
-- Remove the `.github` directory (mainly for workflows and templates, but the `scheduled-vercel-deploy.yml` file may be useful for [Customizing GitHub Activity Pages](../customizing-github-activity-pages/#automate-data-refreshing)).
+- Remove the `.github` directory (mainly for workflows and templates, but the `scheduled-vercel-deploy.yml` file may be useful for [Customizing GitHub Activity Pages](customizing-github-activity-pages/#automate-data-refreshing)).
 - Clean up the `src/content/`, `src/assets/`, and other directories.
 - Review `.vscode/settings.json` for adjustments.  
 - Rewrite `README.md`.
@@ -513,7 +513,7 @@ Finally, you may want to:
 
 This is a general overview of what you can customize in the project. If you're proficient with code, there's even more you can personalize!
 
-Next, check out [Authoring Content](../getting-started/#authoring-content) to learn how to tailor each page to your liking.
+Next, check out [Authoring Content](getting-started/#authoring-content) to learn how to tailor each page to your liking.
 
 If you encounter any issues, find errors, or see opportunities for improvement, feel free to join the [discussion](https://github.com/lin-stephanie/astro-antfustyle-theme/discussions) or submit an [issue](https://github.com/lin-stephanie/astro-antfustyle-theme/issues) or [pull request](https://github.com/lin-stephanie/astro-antfustyle-theme/pulls). Your feedback is highly appreciated! ❤️
 

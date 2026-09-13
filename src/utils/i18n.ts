@@ -48,7 +48,7 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
     label: '中文',
     shortLabel: '中',
     ogLocale: 'zh_CN',
-    dir: '',
+    dir: 'zh',
     wordsPerMinute: 400,
     rssPath: '/rss.xml',
   },
@@ -173,8 +173,14 @@ export function prefixedLocales(): Locale[] {
 /**
  * Derives the locale of a content entry from its id (relative path).
  *
- * @example 'hello'          -> 'zh-Hans' (default, no prefix)
+ * Every locale is reached through a directory prefix (`zh/`, `en/`).
+ * There is no "default" position any more — articles that sit at the
+ * collection root resolve to the default locale by falling through
+ * the prefix lookup.
+ *
+ * @example 'zh/hello'       -> 'zh-Hans'
  * @example 'en/hello'       -> 'en'
+ * @example 'zh/series/one'  -> 'zh-Hans'
  * @example 'en/series/one'  -> 'en'
  */
 export function localeFromId(id: string): Locale {
